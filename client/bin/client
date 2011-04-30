@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 
 from packages import Packages
+from useflags import UseFlags
 
 def main ():
   p = Packages ()
-  for cp in p.getInstalledCPs ():
-    print cp
+  u = UseFlags ()
+  for cpv in p.getInstalledCPVs ():
+    print cpv,
+    for x in u.getUseFlags (cpv):
+      print x,
+    print
 
 if __name__ == "__main__":
   main ()
