@@ -1,7 +1,7 @@
 
-from gentoolkit.flag import *
+from gentoolkit import flag
 
-class UseFlags:
+class UseFlags(object):
 
-  def getUseFlags (self, cpv):
-    return get_flags (cpv, True)[1]
+  def getUseFlags(self, cpv):
+    return flag.get_flags(cpv, True)[1]

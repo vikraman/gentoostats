@@ -1,19 +1,19 @@
 
 import logging
-from subprocess import *
+import subprocess
 
-class Environment:
+class Environment(object):
 
-  def __init__ (self):
+  def __init__(self):
     try:
-      p = Popen (['emerge', '--info'], stdout=PIPE)
-      self.out = p.stdout.readlines ()
+      p = subprocess.Popen(['emerge', '--info'], stdout=subprocess.PIPE)
+      self.out = p.stdout.readlines()
     except OSError, e:
-      fatal ('Cannot run emerge --info')
+      fatal('Cannot run emerge --info')
       raise e
 
-  def getVar (self, myvar):
+  def getVar(self, myvar):
     for line in self.out:
-      if line.startswith (myvar):
-	return line.strip ()
+      if line.startswith(myvar):
+	return line.strip()
     return ''
