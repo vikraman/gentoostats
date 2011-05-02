@@ -13,11 +13,8 @@ def main():
       print x,
     print
   e = Environment()
-  print e.getVar('CFLAGS')
-  print e.getVar('CXXFLAGS')
-  print e.getVar('LDFLAGS')
-  print e.getVar('CHOST')
-  print e.getVar('FEATURES')
+  for var in ('CFLAGS', 'CXXFLAGS', 'LDFLAGS', 'CHOST', 'FEATURES'):
+    print e.getVar(var)
 
 if __name__ == "__main__":
   main()
