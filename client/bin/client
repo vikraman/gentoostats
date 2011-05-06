@@ -3,18 +3,55 @@
 from packages import Packages
 from useflags import UseFlags
 from environment import Environment
+import json
+import urllib, httplib
 
-def main():
+def getAuthInfo():
+  #TODO: Return public uuid and md5sum of password
+  auth_info = {
+      "UUID": "254e308c-d6a0-405c-aa1f-f21d9c1ea6e1",
+      "PASSWD": "5f4dcc3b5aa765d61d8327deb882cf99"
+      }
+  return auth_info
+
+def getPostData():
   p = Packages()
   u = UseFlags()
-  for cpv in p.getInstalledCPVs():
-    print cpv,
-    for x in u.getUseFlags(cpv):
-      print x,
-    print
   e = Environment()
-  for var in ('CFLAGS', 'CXXFLAGS', 'LDFLAGS', 'CHOST', 'FEATURES'):
-    print e.getVar(var)
+
+  post_data = {}
+  post_data['PROTOCOL'] = 1
+  post_data['AUTH'] = getAuthInfo()
+  for key in ('CFLAGS', 'CXXFLAGS', 'LDFLAGS', 'CHOST', 'FEATURES'):
+    post_data[key] = e.getVar(key)
+
+  packages = {}
+  for cpv in p.getInstalledCPVs(sort=True):
+    packages[cpv] = u.getUseFlags(cpv)
+  post_data['PACKAGES'] = packages
+
+  return post_data
+
+def serialize(object, human=False):
+  if human:
+    indent = 2
+    sort_keys = True
+  else:
+    indent = None
+    sort_keys = False
+  return json.JSONEncoder(indent=indent, sort_keys=sort_keys).encode(object)
+
+def main():
+  post_body = serialize(getPostData(), human=True)
+  print post_body
+  post_headers = {"Content-type": "application/json"}
+  myuuid = getAuthInfo()['UUID']
+  conn = httplib.HTTPConnection("127.0.0.1:8080")
+  conn.request('POST', '/' + myuuid, headers=post_headers, body=post_body)
+  #TODO: Handle exceptions
+  response = conn.getresponse()
+  print response.status, response.reason
+  print 'Server response: ' + response.read()
 
 if __name__ == "__main__":
   main()
