@@ -3,10 +3,15 @@ import logging
 from dbapi import VARDB
 
 class Packages(object):
-  def getInstalledCPs(self):
-    installed_cps = sorted(VARDB.cp_all())
+
+  def getInstalledCPs(self, sort=False):
+    installed_cps = VARDB.cp_all()
+    if sort:
+      return sorted(installed_cps)
     return installed_cps
 
-  def getInstalledCPVs(self):
-    installed_cpvs = sorted(VARDB.cpv_all())
+  def getInstalledCPVs(self,sort=False):
+    installed_cpvs = VARDB.cpv_all()
+    if sort:
+      return installed_cpvs
     return installed_cpvs
