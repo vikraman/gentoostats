@@ -1,4 +1,5 @@
 
+#TODO: Remove gentoolkit dependency
 from gentoolkit import flag
 
 class UseFlags(object):
