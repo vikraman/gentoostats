@@ -2,26 +2,36 @@
 
 import web
 import config
-from config import render
 import json
+from config import render
+from post import handler
 
 urls = (
   r'/', 'index',
   r'/(.+)', 'stats'
 )
 
+db = web.database(
+    dbn='mysql',
+    user='vh4x0r',
+    pw='vh4x0r',
+    db='gentoostats'
+    )
+
 class index:
   def GET(self):
-    return render.index()
+    hosts = db.select('hosts')
+    return render.index(hosts)
 
 class stats:
   def GET(self, uuid):
-    return '<html><body>GET success</body></html>'
+    hosts = db.select('hosts', vars=locals(), where="uuid=$uuid")
+    env = db.select('env', vars=locals(), where="uuid=$uuid")
+    return render.stats(uuid, hosts, env)
 
   def POST(self, uuid):
-    pdata = json.JSONDecoder().decode(web.data())
-    print pdata
-    return 'Post for ' + uuid + ' successful'
+    post_data = json.JSONDecoder().decode(web.data())
+    return handler(uuid, post_data, db)
 
 def notfound():
   return web.notfound(render.error_404())
