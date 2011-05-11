@@ -48,9 +48,12 @@ def handler(uuid, data, db):
   pkg = data['PACKAGES']
   for cpv in pkg.keys():
     t = pkgsplit(cpv)
-    db.insert('packages', cat=t['cat'], pkg=t['pn'], ver=t['ver'])
-    pkey = db.select('packages', vars={'cat':t['cat'], 'pkg':t['pn'], 'ver':t['ver']},
-	where='cat=$cat and pkg=$pkg and ver=$ver', what='pkey')[0].pkey
+    s = db.select('packages', vars={'cat':t['cat'], 'pkg':t['pn'], 'ver':t['ver']},
+	where='cat=$cat and pkg=$pkg and ver=$ver')
+    if len(s) == 0:
+      pkey = db.insert('packages', cat=t['cat'], pkg=t['pn'], ver=t['ver'])
+    else:
+      pkey = s[0].pkey
     for use in pkg[cpv]:
       db.insert('useflags', uuid=uuid, useflag=use, pkey=str(pkey))
   
