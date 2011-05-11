@@ -25,6 +25,8 @@ class index:
 
 class stats:
   def GET(self, uuid):
+    if uuid == 'favicon.ico':
+      return notfound()
     hosts = db.select('hosts', vars=locals(), where="uuid=$uuid")
     env = db.select('env', vars=locals(), where="uuid=$uuid")
     return render.stats(uuid, hosts, env)
