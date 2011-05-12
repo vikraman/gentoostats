@@ -1,0 +1,48 @@
+
+Gentoostats
+===========
+
+Server
+======
+Dependencies
+------------
+dev-db/mysql
+dev-python/mysql-python
+dev-python/webpy
+=dev-lang/python-2.*
+
+Instructions
+------------
+* Start the mysql server
+* Execute server/sql/init.sql as mysql root user
+
+  mysql -u root -p < server/sql/init.sql
+
+* Execute server/sql/setup.sql as user gentoo, password gentoo
+
+  mysql -u gentoo -p < server/sql/setup.sql
+
+* Start the main.py script, either from the server/ directory or
+  by exporting PYTHONPATH
+
+  export PYTHONPATH=server/
+  server/main.py
+
+
+Client
+======
+Dependencies
+------------
+=dev-lang/python-2.*
+app-portage/gentoolkit
+
+Instructions
+------------
+* Set host uuid and password in client/bin/client
+* Execute client/bin/client as root or some user in portage group
+
+  export PYTHONPATH=client/
+  client/bin/client
+
+
+P.S. All paths are relative to source directory

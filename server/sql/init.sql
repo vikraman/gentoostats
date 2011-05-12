@@ -1,5 +1,5 @@
 
--- run as 'vh4x0r'@'localhost' identified by 'vh4x0r'
+-- run as 'gentoo'@'localhost' identified by 'gentoo'
 use gentoostats;
 
 drop table if exists hosts;

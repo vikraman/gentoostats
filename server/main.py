@@ -13,8 +13,8 @@ urls = (
 
 db = web.database(
     dbn='mysql',
-    user='vh4x0r',
-    pw='vh4x0r',
+    user='gentoo',
+    pw='gentoo',
     db='gentoostats'
     )
 

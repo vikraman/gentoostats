@@ -1,3 +1,3 @@
 -- run as root
 create database gentoostats;
-grant all on gentoostats.* to 'vh4x0r'@'localhost' identified by 'vh4x0r';
+grant all on gentoostats.* to 'gentoo'@'localhost' identified by 'gentoo';
