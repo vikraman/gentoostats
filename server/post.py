@@ -20,6 +20,7 @@ def pkgsplit(pkgname):
   return cpv
 
 def handler(uuid, data, db):
+  #TODO: Handle exceptions
   if data['PROTOCOL'] != 1:
     return 'Unsupported protocol!'
 

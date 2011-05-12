@@ -1,3 +1,5 @@
-TODO: Return public uuid and md5sum of password
-TODO: Handle exceptions
-TODO: Remove gentoolkit dependency
+./server/post.py:  #TODO: Improve this
+./server/post.py:  #TODO: Handle exceptions
+./client/bin/client:  #TODO: Return public uuid and md5sum of password
+./client/bin/client:  #TODO: Handle exceptions
+./client/useflags.py:#TODO: Remove gentoolkit dependency
