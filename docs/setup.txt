@@ -14,13 +14,13 @@ dev-python/webpy
 Instructions
 ------------
 * Start the mysql server
-* Execute server/sql/init.sql as mysql root user
+* Execute server/sql/setup.sql as mysql root user
 
-  mysql -u root -p < server/sql/init.sql
+  mysql -u root -p < server/sql/setup.sql
 
-* Execute server/sql/setup.sql as user gentoo, password gentoo
+* Execute server/sql/init.sql as user gentoo, password gentoo
 
-  mysql -u gentoo -p < server/sql/setup.sql
+  mysql -u gentoo -p < server/sql/init.sql
 
 * Start the main.py script, either from the server/ directory or
   by exporting PYTHONPATH
