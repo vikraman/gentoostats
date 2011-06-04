@@ -1,5 +1,6 @@
 
 import logging
+import portage
 from dbapi import VARDB
 
 class Packages(object):

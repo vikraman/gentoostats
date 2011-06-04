@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-from packages import Packages
-from useflags import UseFlags
-from environment import Environment
+from payload import Payload
 import json
 import urllib, httplib
 
@@ -14,24 +12,6 @@ def getAuthInfo():
       }
   return auth_info
 
-def getPostData():
-  p = Packages()
-  u = UseFlags()
-  e = Environment()
-
-  post_data = {}
-  post_data['PROTOCOL'] = 1
-  post_data['AUTH'] = getAuthInfo()
-  for key in ('CFLAGS', 'CXXFLAGS', 'LDFLAGS', 'CHOST', 'FEATURES'):
-    post_data[key] = e.getVar(key)
-
-  packages = {}
-  for cpv in p.getInstalledCPVs(sort=True):
-    packages[cpv] = u.getUseFlags(cpv)
-  post_data['PACKAGES'] = packages
-
-  return post_data
-
 def serialize(object, human=False):
   if human:
     indent = 2
@@ -42,8 +22,11 @@ def serialize(object, human=False):
   return json.JSONEncoder(indent=indent, sort_keys=sort_keys).encode(object)
 
 def main():
-  post_body = serialize(getPostData(), human=True)
-  print post_body
+  pl = Payload()
+  pl.dump(human=True)
+  post_data = pl.get()
+  post_data['AUTH'] = getAuthInfo()
+  post_body = serialize(post_data,human=True)
   post_headers = {"Content-type": "application/json"}
   myuuid = getAuthInfo()['UUID']
   conn = httplib.HTTPConnection("127.0.0.1:8080")
