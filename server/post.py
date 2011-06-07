@@ -2,13 +2,15 @@
 
 from helpers import *
 
-def handler(uuid, data, db):
+def handler(uuid_str, data, db):
   #TODO: Handle exceptions
   if data['PROTOCOL'] != 1:
     return 'Unsupported protocol!'
 
-  if data['AUTH']['UUID'] != uuid:
+  if data['AUTH']['UUID'] != uuid_str:
     return 'Invalid uuid!'
+
+  uuid = uuidbin(uuid_str)
 
   # Insert in hosts
   db_host = db.select('hosts', vars={'uuid':uuid}, where='uuid=$uuid')
@@ -20,9 +22,11 @@ def handler(uuid, data, db):
   db.insert('hosts', uuid=uuid, passwd=data['AUTH']['PASSWD'])
 
   # Insert in env
-  for var in ['ARCH','CHOST','CFLAGS','CXXFLAGS','FFLAGS','LDFLAGS','MAKEOPTS','SYNC','PLATFORM','PROFILE','LASTSYNC']:
-    db.insert('env', uuid=uuid, var=var, value=data[var])
-  
+  db.insert('env', uuid=uuid, arch=data['ARCH'], chost=data['CHOST'], cflags=data['CFLAGS'],
+	  cxxflags=data['CXXFLAGS'], fflags=data['FFLAGS'], ldflags=data['LDFLAGS'],
+	  makeopts=data['MAKEOPTS'], sync=data['SYNC'], platform=data['PLATFORM'],
+	  profile=data['PROFILE'], lastsync=data['LASTSYNC'])
+
   # Insert in global_keywords
   for keyword in data['ACCEPT_KEYWORDS']:
 	kwkey = get_kwkey(db, keyword)
@@ -74,4 +78,4 @@ def handler(uuid, data, db):
 	  ukey = get_ukey(db, useflag)
 	  db.insert('unset_useflags', ipkey=ipkey, ukey=ukey)
 
-  return 'POST for ' + uuid + ' successful'
+  return 'POST for ' + uuid_str + ' successful'

@@ -1,5 +1,13 @@
 
+import uuid
 import re
+
+# convert uuid string to raw bytes
+
+def uuidbin(string):
+  #TODO: string is not a valid uuid
+  u = uuid.UUID(string)
+  return u.bytes
 
 # split package name into cpv
 # based on pkgsplit code 
@@ -11,7 +19,7 @@ def pkgsplit(pkgname):
   cpv['cat'] = pkgsplit[0]
   pv_re =re.compile(r'(?x)^(?P<pn>[\w\+][\w\+-]*?(?P<pn_inval>-(cvs\.)?(\d+)((\.\d+)*)([a-z]?)((_(pre|p|beta|alpha|rc)\d*)*)(-r(\d+))?)?)-(?P<ver>(cvs\.)?(\d+)((\.\d+)*)([a-z]?)((_(pre|p|beta|alpha|rc)\d*)*))(-r(?P<rev>\d+))?$')
   m = pv_re.match(pkgsplit[1])
-  cpv['pkg'] = m.group('pkg')
+  cpv['pkg'] = m.group('pn')
   rev = m.group('rev')
   if rev is None:
  	cpv['ver'] = m.group('ver')
