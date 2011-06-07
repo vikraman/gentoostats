@@ -18,10 +18,10 @@ class Payload(object):
     self.payload['LASTSYNC'] = env.getLastSync()
     self.payload['PROFILE'] = env.getProfile()
 
-    for var in ['ARCH','CFLAGS','CXXFLAGS','FFLAGS','LDFLAGS','MAKEOPTS']:
+    for var in ['ARCH','CHOST','CFLAGS','CXXFLAGS','FFLAGS','LDFLAGS','MAKEOPTS','SYNC']:
       self.payload[var] = env.getVar(var)
 
-    for var in ['ACCEPT_KEYWORDS','LANG','GENTOO_MIRRORS','SYNC','FEATURES','USE']:
+    for var in ['ACCEPT_KEYWORDS','LANG','GENTOO_MIRRORS','FEATURES','USE']:
       self.payload[var] = env.getVar(var).split()
 
     self.payload['PACKAGES'] = dict()
