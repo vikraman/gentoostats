@@ -1,0 +1,56 @@
+$def with (data)
+$var title: Host
+
+Stats for host $data['UUID'] : <br/> <br/>
+<ul>
+<li>Platform : $data['PLATFORM']</li>
+<li>Profile : $data['PROFILE']</li>
+<li>Timestamp of tree : $data['LASTSYNC']</li>
+<li>ARCH : $data['ARCH']</li>
+<li>CHOST : $data['CHOST']</li>
+<li>CFLAGS : $data['CFLAGS']</li>
+<li>CXXFLAGS : $data['CXXFLAGS']</li>
+<li>FFLAGS : $data['FFLAGS']</li>
+<li>LDLAGS : $data['LDFLAGS']</li>
+<li>MAKEOPTS : $data['MAKEOPTS']</li>
+<li>SYNC : $data['SYNC']</li>
+<li>FEATURES :
+<ul>
+$for f in data['FEATURES']:
+  <li>$f</li>
+</ul>
+</li>
+<li>ACCEPT_KEYWORDS :
+<ul>
+$for k in data['ACCEPT_KEYWORDS']:
+  <li>$k</li>
+</ul>
+</li>
+<li>USE :
+<ul>
+$for u in data['USE']:
+  <li>$u</li>
+</ul>
+</li>
+<li>LANG :
+<ul>
+$for l in data['LANG']:
+  <li>$l</li>
+</ul>
+</li>
+<li>GENTOO_MIRRORS :
+<ul>
+$for m in data['GENTOO_MIRRORS']:
+  <li>$m</li>
+</ul>
+</li>
+<li>Installed packages :
+<ul>
+$code:
+  packages = data['PACKAGES'].keys()
+  packages.sort()
+$for p in packages:
+  <li>$p</li>
+</ul>
+</li>
+</ul>

@@ -1,9 +1,6 @@
-$def with (hosts)
+$def with (count)
 $var title: Gentoostats
 
 Welcome to the gentoostats webapp <br/>
-
-List of hosts: <br/>
-
-$for host in hosts:
-  <li><a href=$host.uuid>$host.uuid</li>
+<br/>
+Number of hosts: $count<br/>

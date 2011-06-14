@@ -1,9 +1,0 @@
-$def with (uuid, hosts, env)
-$var title: Stats
-
-$if len(hosts):
-  Stats for host $uuid : <br/>
-  $for e in env:
-    <li>$e.var = "$e.value"</li>
-$else:
-  Host does not exist in records!

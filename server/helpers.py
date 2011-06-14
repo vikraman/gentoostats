@@ -2,6 +2,12 @@
 import uuid
 import re
 
+# check valid uuid
+
+def is_uuid(uuid):
+  regex = re.compile(r'^(\w{8})-(\w{4})-(\w{4})-(\w{4})-(\w{12})$')
+  return regex.search(uuid)
+
 # convert uuid string to raw bytes
 
 def uuidbin(string):
@@ -31,59 +37,58 @@ def pkgsplit(pkgname):
 # lookup key and insert if not found
 
 def get_kwkey(db, keyword):
-  db_keyword = db.select('keywords', vars={'keyword':keyword}, where='keyword=$keyword')
+  db_keyword = db.select('KEYWORDS', vars={'keyword':keyword}, where='KEYWORD=$keyword')
   if len(db_keyword):
-	kwkey = db_keyword[0].kwkey
+	kwkey = db_keyword[0]['KWKEY']
   else:
-	kwkey = db.insert('keywords', keyword=keyword)
+	kwkey = db.insert('KEYWORDS', KEYWORD=keyword)
   return kwkey
 
 def get_lkey(db, lang):
-  db_lang = db.select('lang', vars={'lang':lang}, where='lang=$lang')
+  db_lang = db.select('LANG', vars={'lang':lang}, where='LANG=$lang')
   if len(db_lang):
-	lkey = db_lang[0].lkey
+	lkey = db_lang[0]['LKEY']
   else:
-	lkey = db.insert('lang', lang=lang)
+	lkey = db.insert('LANG', LANG=lang)
   return lkey
 
 def get_fkey(db, feature):
-  db_feature = db.select('features', vars={'feature':feature}, where='feature=$feature')
+  db_feature = db.select('FEATURES', vars={'feature':feature}, where='FEATURE=$feature')
   if len(db_feature):
-	fkey = db_feature[0].fkey
+	fkey = db_feature[0]['FKEY']
   else:
-	fkey = db.insert('features', feature=feature)
+	fkey = db.insert('FEATURES', FEATURE=feature)
   return fkey
 
 def get_mkey(db, mirror):
-  db_mirror = db.select('gentoo_mirrors', vars={'mirror':mirror}, where='mirror=$mirror')
+  db_mirror = db.select('GENTOO_MIRRORS', vars={'mirror':mirror}, where='MIRROR=$mirror')
   if len(db_mirror):
-	mkey = db_mirror[0].mkey
+	mkey = db_mirror[0]['MKEY']
   else:
-	mkey = db.insert('gentoo_mirrors', mirror=mirror)
+	mkey = db.insert('GENTOO_MIRRORS', MIRROR=mirror)
   return mkey
 
 def get_ukey(db, useflag):
-  db_useflag = db.select('useflags', vars={'useflag':useflag}, where='useflag=$useflag')
+  db_useflag = db.select('USEFLAGS', vars={'useflag':useflag}, where='USEFLAG=$useflag')
   if len(db_useflag):
-	ukey = db_useflag[0].ukey
+	ukey = db_useflag[0]['UKEY']
   else:
-	ukey = db.insert('useflags', useflag=useflag)
+	ukey = db.insert('USEFLAGS', USEFLAG=useflag)
   return ukey
 
 def get_pkey(db, package):
   cpv = pkgsplit(package)
-  db_package = db.select('packages', vars=cpv, where='cat=$cat and pkg=$pkg and ver=$ver')
+  db_package = db.select('PACKAGES', vars=cpv, where='CAT=$cat and PKG=$pkg and VER=$ver')
   if len(db_package):
-	pkey = db_package[0].pkey
+	pkey = db_package[0]['PKEY']
   else:
-	pkey = db.insert('packages', cat=cpv['cat'], pkg=cpv['pkg'], ver=cpv['ver'])
+	pkey = db.insert('PACKAGES', CAT=cpv['cat'], PKG=cpv['pkg'], VER=cpv['ver'])
   return pkey
 
 def get_rkey(db, repo):
-  db_repo = db.select('repositories', vars={'repo':repo}, where='repo=$repo')
+  db_repo = db.select('REPOSITORIES', vars={'repo':repo}, where='REPO=$repo')
   if len(db_repo):
-	rkey = db_repo[0].rkey
+	rkey = db_repo[0]['RKEY']
   else:
-	rkey = db.insert('repositories', repo=repo)
+	rkey = db.insert('REPOSITORIES', REPO=repo)
   return rkey
-
