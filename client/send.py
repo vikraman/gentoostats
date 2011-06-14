@@ -30,7 +30,7 @@ def main():
   post_headers = {"Content-type": "application/json"}
   myuuid = getAuthInfo()['UUID']
   conn = httplib.HTTPConnection("127.0.0.1:8080")
-  conn.request('POST', '/' + myuuid, headers=post_headers, body=post_body)
+  conn.request('POST', '/host/' + myuuid, headers=post_headers, body=post_body)
   #TODO: Handle exceptions
   response = conn.getresponse()
   print response.status, response.reason
