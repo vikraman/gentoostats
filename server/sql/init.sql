@@ -1,190 +1,190 @@
 
--- run as 'gentoo'@'localhost' identified by 'gentoo'
+-- run as 'gentoo'@'localHOST' identified by 'gentoo'
 use `gentoostats`;
 
-drop table if exists `env`;
-drop table if exists `global_keywords`;
-drop table if exists `host_lang`;
-drop table if exists `host_features`;
-drop table if exists `host_mirrors`;
-drop table if exists `global_useflags`;
-drop table if exists `plus_useflags`;
-drop table if exists `minus_useflags`;
-drop table if exists `unset_useflags`;
-drop table if exists `installed_packages`;
-drop table if exists `lang`;
-drop table if exists `features`;
-drop table if exists `gentoo_mirrors`;
-drop table if exists `useflags`;
-drop table if exists `keywords`;
-drop table if exists `packages`;
-drop table if exists `repositories`;
-drop table if exists `hosts`;
+drop table if exists `ENV`;
+drop table if exists `GLOBAL_KEYWORDS`;
+drop table if exists `HOST_LANG`;
+drop table if exists `HOST_FEATURES`;
+drop table if exists `HOST_MIRRORS`;
+drop table if exists `GLOBAL_USEFLAGS`;
+drop table if exists `PLUS_USEFLAGS`;
+drop table if exists `MINUS_USEFLAGS`;
+drop table if exists `UNSET_USEFLAGS`;
+drop table if exists `INSTALLED_PACKAGES`;
+drop table if exists `LANG`;
+drop table if exists `FEATURES`;
+drop table if exists `GENTOO_MIRRORS`;
+drop table if exists `USEFLAGS`;
+drop table if exists `KEYWORDS`;
+drop table if exists `PACKAGES`;
+drop table if exists `REPOSITORIES`;
+drop table if exists `HOSTS`;
 
-create table `hosts` (
-  `uuid` binary (16),
-  `passwd` varchar (32) not null,
-  primary key (`uuid`)
+create table `HOSTS` (
+  `UUID` binary (16),
+  `PASSWD` varchar (32) not null,
+  primary key (`UUID`)
 ) engine=innodb;
 
-create table `env` (
-  `uuid` binary (16),
-  `platform` varchar (128),
-  `arch` varchar (16),
-  `chost` varchar (32),
-  `cflags` varchar (64),
-  `cxxflags` varchar (64),
-  `fflags` varchar (64),
-  `ldflags` varchar (64),
-  `makeopts` varchar (8),
-  `lastsync` timestamp null default null,
-  `profile` varchar (64),
-  `sync` varchar (128),
-  primary key (`uuid`),
-  foreign key (`uuid`) references `hosts`(`uuid`)
+create table `ENV` (
+  `UUID` binary (16),
+  `PLATFORM` varchar (128),
+  `ARCH` varchar (16),
+  `CHOST` varchar (32),
+  `CFLAGS` varchar (64),
+  `CXXFLAGS` varchar (64),
+  `FFLAGS` varchar (64),
+  `LDFLAGS` varchar (64),
+  `MAKEOPTS` varchar (8),
+  `LASTSYNC` timestamp null default null,
+  `PROFILE` varchar (64),
+  `SYNC` varchar (128),
+  primary key (`UUID`),
+  foreign key (`UUID`) references `HOSTS`(`UUID`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `keywords` (
-  `kwkey` serial,
-  `keyword` varchar (16),
-  primary key (`keyword`)
+create table `KEYWORDS` (
+  `KWKEY` serial,
+  `KEYWORD` varchar (16),
+  primary key (`KEYWORD`)
 ) engine=innodb;
 
-create table `global_keywords` (
-  `uuid` binary (16),
-  `kwkey` bigint unsigned,
-  primary key (`uuid`, `kwkey`),
-  foreign key (`uuid`) references `hosts`(`uuid`)
+create table `GLOBAL_KEYWORDS` (
+  `UUID` binary (16),
+  `KWKEY` bigint unsigned,
+  primary key (`UUID`, `KWKEY`),
+  foreign key (`UUID`) references `HOSTS`(`UUID`)
   on delete cascade on update cascade,
-  foreign key (`kwkey`) references `keywords`(`kwkey`)
+  foreign key (`KWKEY`) references `KEYWORDS`(`KWKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `lang` (
-  `lkey` serial,
-  `lang` varchar (16),
-  primary key (`lang`)
+create table `LANG` (
+  `LKEY` serial,
+  `LANG` varchar (16),
+  primary key (`LANG`)
 ) engine=innodb;
 
-create table `host_lang` (
-  `uuid` binary (16),
-  `lkey` bigint unsigned,
-  primary key (`uuid`, `lkey`),
-  foreign key (`uuid`) references `hosts`(`uuid`)
+create table `HOST_LANG` (
+  `UUID` binary (16),
+  `LKEY` bigint unsigned,
+  primary key (`UUID`, `LKEY`),
+  foreign key (`UUID`) references `HOSTS`(`UUID`)
   on delete cascade on update cascade,
-  foreign key (`lkey`) references `lang`(`lkey`)
+  foreign key (`LKEY`) references `LANG`(`LKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `features` (
-  `fkey` serial,
-  `feature` varchar (64),
-  primary key (`feature`)
+create table `FEATURES` (
+  `FKEY` serial,
+  `FEATURE` varchar (64),
+  primary key (`FEATURE`)
 ) engine=innodb;
 
-create table `host_features` (
-  `uuid` binary (16),
-  `fkey` bigint unsigned,
-  primary key (`uuid`, `fkey`),
-  foreign key (`uuid`) references `hosts`(`uuid`)
+create table `HOST_FEATURES` (
+  `UUID` binary (16),
+  `FKEY` bigint unsigned,
+  primary key (`UUID`, `FKEY`),
+  foreign key (`UUID`) references `HOSTS`(`UUID`)
   on delete cascade on update cascade,
-  foreign key (`fkey`) references `features`(`fkey`)
+  foreign key (`FKEY`) references `FEATURES`(`FKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `gentoo_mirrors` (
-  `mkey` serial,
-  `mirror` varchar (128),
-  primary key (`mirror`)
+create table `GENTOO_MIRRORS` (
+  `MKEY` serial,
+  `MIRROR` varchar (128),
+  primary key (`MIRROR`)
 ) engine=innodb;
 
-create table `host_mirrors` (
-  `uuid` binary (16),
-  `mkey` bigint unsigned,
-  primary key (`uuid`, `mkey`),
-  foreign key (`uuid`) references `hosts`(`uuid`)
+create table `HOST_MIRRORS` (
+  `UUID` binary (16),
+  `MKEY` bigint unsigned,
+  primary key (`UUID`, `MKEY`),
+  foreign key (`UUID`) references `HOSTS`(`UUID`)
   on delete cascade on update cascade,
-  foreign key (`mkey`) references `gentoo_mirrors`(`mkey`)
+  foreign key (`MKEY`) references `GENTOO_MIRRORS`(`MKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `packages` (
-  `pkey` serial,
-  `cat` varchar (32),
-  `pkg` varchar (64),
-  `ver` varchar (32),
-  primary key (`cat`, `pkg`, `ver`)
+create table `PACKAGES` (
+  `PKEY` serial,
+  `CAT` varchar (32),
+  `PKG` varchar (64),
+  `VER` varchar (32),
+  primary key (`CAT`, `PKG`, `VER`)
 ) engine=innodb;
 
-create table `repositories` (
-  `rkey` serial,
-  `repo` varchar (32),
-  primary key (`repo`)
+create table `REPOSITORIES` (
+  `RKEY` serial,
+  `REPO` varchar (32),
+  primary key (`REPO`)
 ) engine=innodb;
 
-create table `installed_packages` (
-  `ipkey` serial,
-  `uuid` binary (16),
-  `pkey` bigint unsigned,
+create table `INSTALLED_PACKAGES` (
+  `IPKEY` serial,
+  `UUID` binary (16),
+  `PKEY` bigint unsigned,
   `build_time` timestamp null default null,
-  `counter` bigint unsigned,
-  `kwkey` bigint unsigned,
-  `rkey` bigint unsigned,
-  `size` bigint unsigned,
-  primary key (`uuid`, `pkey`),
-  foreign key (`uuid`) references `hosts`(`uuid`)
+  `COUNTER` bigint unsigned,
+  `KWKEY` bigint unsigned,
+  `RKEY` bigint unsigned,
+  `SIZE` bigint unsigned,
+  primary key (`UUID`, `PKEY`),
+  foreign key (`UUID`) references `HOSTS`(`UUID`)
   on delete cascade on update cascade,
-  foreign key (`pkey`) references `packages`(`pkey`)
+  foreign key (`PKEY`) references `PACKAGES`(`PKEY`)
   on delete cascade on update cascade,
-  foreign key (`kwkey`) references `keywords`(`kwkey`)
+  foreign key (`KWKEY`) references `KEYWORDS`(`KWKEY`)
   on delete cascade on update cascade,
-  foreign key (`rkey`) references `repositories`(`rkey`)
+  foreign key (`RKEY`) references `REPOSITORIES`(`RKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `useflags` (
-  `ukey` serial,
-  `useflag` varchar (64),
-  primary key (`useflag`)
+create table `USEFLAGS` (
+  `UKEY` serial,
+  `USEFLAG` varchar (64),
+  primary key (`USEFLAG`)
 ) engine=innodb;
 
-create table `global_useflags` (
-  `uuid` binary (16),
-  `ukey` bigint unsigned,
-  primary key (`uuid`, `ukey`),
-  foreign key (`uuid`) references `hosts`(`uuid`)
+create table `GLOBAL_USEFLAGS` (
+  `UUID` binary (16),
+  `UKEY` bigint unsigned,
+  primary key (`UUID`, `UKEY`),
+  foreign key (`UUID`) references `HOSTS`(`UUID`)
   on delete cascade on update cascade,
-  foreign key (`ukey`) references `useflags`(`ukey`)
+  foreign key (`UKEY`) references `USEFLAGS`(`UKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `plus_useflags` (
-  `ipkey` bigint unsigned,
-  `ukey` bigint unsigned,
-  primary key (`ipkey`, `ukey`),
-  foreign key (`ipkey`) references `installed_packages`(`ipkey`)
+create table `PLUS_USEFLAGS` (
+  `IPKEY` bigint unsigned,
+  `UKEY` bigint unsigned,
+  primary key (`IPKEY`, `UKEY`),
+  foreign key (`IPKEY`) references `INSTALLED_PACKAGES`(`IPKEY`)
   on delete cascade on update cascade,
-  foreign key (`ukey`) references `useflags`(`ukey`)
+  foreign key (`UKEY`) references `USEFLAGS`(`UKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `minus_useflags` (
-  `ipkey` bigint unsigned,
-  `ukey` bigint unsigned,
-  primary key (`ipkey`, `ukey`),
-  foreign key (`ipkey`) references `installed_packages`(`ipkey`)
+create table `MINUS_USEFLAGS` (
+  `IPKEY` bigint unsigned,
+  `UKEY` bigint unsigned,
+  primary key (`IPKEY`, `UKEY`),
+  foreign key (`IPKEY`) references `INSTALLED_PACKAGES`(`IPKEY`)
   on delete cascade on update cascade,
-  foreign key (`ukey`) references `useflags`(`ukey`)
+  foreign key (`UKEY`) references `USEFLAGS`(`UKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
 
-create table `unset_useflags` (
-  `ipkey` bigint unsigned,
-  `ukey` bigint unsigned,
-  primary key (`ipkey`, `ukey`),
-  foreign key (`ipkey`) references `installed_packages`(`ipkey`)
+create table `UNSET_USEFLAGS` (
+  `IPKEY` bigint unsigned,
+  `UKEY` bigint unsigned,
+  primary key (`IPKEY`, `UKEY`),
+  foreign key (`IPKEY`) references `INSTALLED_PACKAGES`(`IPKEY`)
   on delete cascade on update cascade,
-  foreign key (`ukey`) references `useflags`(`ukey`)
+  foreign key (`UKEY`) references `USEFLAGS`(`UKEY`)
   on delete cascade on update cascade
 ) engine=innodb;
