@@ -117,7 +117,7 @@ class Host(object):
 	  rkey  = helpers.get_rkey(db, post_data_pkg['REPO'])
 
 	  # Insert in INSTALLED_PACKAGES
-	  ipkey = db.insert('INSTALLED_PACKAGES', UUID=uuid, PKEY=pkey, BUILD_TIME=post_data_pkg['BUILD_TIME'],
+	  ipkey = db.insert('INSTALLED_PACKAGES', UUID=uuid, PKEY=pkey, BUILD_TIME=int(post_data_pkg['BUILD_TIME']),
 	  	  COUNTER=post_data_pkg['COUNTER'], KWKEY=kwkey, RKEY=rkey, SIZE=post_data_pkg['SIZE'])
 
 	  # Insert in PLUS_USEFLAGS
