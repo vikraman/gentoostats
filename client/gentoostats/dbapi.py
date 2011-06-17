@@ -1,3 +1,4 @@
+
 import portage
 
 PORTDB = portage.db[portage.root]["porttree"].dbapi

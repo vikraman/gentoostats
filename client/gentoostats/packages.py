@@ -1,7 +1,7 @@
 
 import logging
 import portage
-from dbapi import VARDB
+from gentoostats.dbapi import VARDB
 
 class Packages(object):
 

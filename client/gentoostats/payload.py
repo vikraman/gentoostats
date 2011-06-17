@@ -1,8 +1,8 @@
 
 import pprint
-from environment import Environment
-from packages import Packages
-from metadata import Metadata
+from gentoostats.environment import Environment
+from gentoostats.packages import Packages
+from gentoostats.metadata import Metadata
 
 class Payload(object):
 
