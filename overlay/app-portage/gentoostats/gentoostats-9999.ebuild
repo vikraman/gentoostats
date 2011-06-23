@@ -21,6 +21,7 @@ DEPEND=""
 RDEPEND="${DEPEND}
 	sys-apps/portage
     >=app-portage/gentoolkit-0.3.0.2
+	dev-python/argparse
 	dev-python/simplejson"
 
 src_compile() {
