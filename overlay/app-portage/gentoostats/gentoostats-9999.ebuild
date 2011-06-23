@@ -23,8 +23,6 @@ RDEPEND="${DEPEND}
     >=app-portage/gentoolkit-0.3.0.2
 	dev-python/simplejson"
 
-AUTHFILE="${ROOT}"/etc/gentoostats/auth.cfg
-
 src_compile() {
 	cd "client"
 	distutils_src_compile
@@ -33,23 +31,29 @@ src_compile() {
 src_install() {
 	cd "client"
 	distutils_src_install
+
+	dodir /etc/gentoostats || die
+	insinto /etc/gentoostats
+	doins payload.cfg || die
+
+	# this doesn't work, why ?
+	fowners root:portage /etc/gentoostats/payload.cfg || die
+	fperms 0640 /etc/gentoostats/payload.cfg || die
 }
 
 pkg_postinst() {
 	distutils_pkg_postinst
 
+	AUTHFILE="${ROOT}/etc/gentoostats/auth.cfg"
 	if ! [ -f "${AUTHFILE}" ]; then
 		elog "Generating uuid and password in ${AUTHFILE}"
-		if ! [ -d "$(dirname "${AUTHFILE}")" ]; then
-			mkdir "$(dirname "${AUTHFILE}")"
-		fi
 		touch "${AUTHFILE}"
 		echo "[AUTH]" >> "${AUTHFILE}"
 		echo -n "UUID : " >> "${AUTHFILE}"
 		cat /proc/sys/kernel/random/uuid >> "${AUTHFILE}"
 		echo -n "PASSWD : " >> "${AUTHFILE}"
 		< /dev/urandom tr -dc a-zA-Z0-9 | head -c16 >> "${AUTHFILE}"
-		echo >> "${AUTHFILE}"
 	fi
-	chmod 0444 "${AUTHFILE}"
+	chown root:portage "${AUTHFILE}"
+	chmod 0640 "${AUTHFILE}"
 }
