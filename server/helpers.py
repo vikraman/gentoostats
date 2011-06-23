@@ -37,6 +37,8 @@ def pkgsplit(pkgname):
 # lookup key and insert if not found
 
 def get_kwkey(db, keyword):
+  if keyword is None:
+	return None
   db_keyword = db.select('KEYWORDS', vars={'keyword':keyword}, where='KEYWORD=$keyword')
   if len(db_keyword):
 	kwkey = db_keyword[0]['KWKEY']
@@ -45,6 +47,8 @@ def get_kwkey(db, keyword):
   return kwkey
 
 def get_lkey(db, lang):
+  if lang is None:
+	return None
   db_lang = db.select('LANG', vars={'lang':lang}, where='LANG=$lang')
   if len(db_lang):
 	lkey = db_lang[0]['LKEY']
@@ -53,6 +57,8 @@ def get_lkey(db, lang):
   return lkey
 
 def get_fkey(db, feature):
+  if feature is None:
+	return None
   db_feature = db.select('FEATURES', vars={'feature':feature}, where='FEATURE=$feature')
   if len(db_feature):
 	fkey = db_feature[0]['FKEY']
@@ -61,6 +67,8 @@ def get_fkey(db, feature):
   return fkey
 
 def get_mkey(db, mirror):
+  if mirror is None:
+	return None
   db_mirror = db.select('GENTOO_MIRRORS', vars={'mirror':mirror}, where='MIRROR=$mirror')
   if len(db_mirror):
 	mkey = db_mirror[0]['MKEY']
@@ -69,6 +77,8 @@ def get_mkey(db, mirror):
   return mkey
 
 def get_ukey(db, useflag):
+  if useflag is None:
+	return None
   db_useflag = db.select('USEFLAGS', vars={'useflag':useflag}, where='USEFLAG=$useflag')
   if len(db_useflag):
 	ukey = db_useflag[0]['UKEY']
@@ -77,6 +87,8 @@ def get_ukey(db, useflag):
   return ukey
 
 def get_pkey(db, package):
+  if package is None:
+	return None
   cpv = pkgsplit(package)
   db_package = db.select('PACKAGES', vars=cpv, where='CAT=$cat and PKG=$pkg and VER=$ver')
   if len(db_package):
@@ -86,6 +98,8 @@ def get_pkey(db, package):
   return pkey
 
 def get_rkey(db, repo):
+  if repo is None:
+	return None
   db_repo = db.select('REPOSITORIES', vars={'repo':repo}, where='REPO=$repo')
   if len(db_repo):
 	rkey = db_repo[0]['RKEY']

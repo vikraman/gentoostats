@@ -6,10 +6,10 @@ import sys
 import json
 import urllib, httplib
 
-def getAuthInfo():
+def getAuthInfo(auth='/etc/gentoostats/auth.cfg'):
   config = ConfigParser.ConfigParser()
-  if len(config.read('/etc/gentoostats/auth.cfg')) == 0:
-	sys.stderr.write('Cannot read auth.cfg')
+  if len(config.read(auth)) == 0:
+	sys.stderr.write('Cannot read '+auth)
 	sys.exit(1)
 
   try:
@@ -18,7 +18,7 @@ def getAuthInfo():
 	auth_info = {'UUID' : uuid, 'PASSWD' : passwd}
 	return auth_info
   except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
-	sys.stderr.write('Malformed auth.cfg')
+	sys.stderr.write('Malformed auth config')
 	sys.exit(1)
 
 def serialize(object, human=False):
