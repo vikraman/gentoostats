@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
-from gentoostats.payload import Payload
-import ConfigParser
 import sys
 import json
+import argparse
+import ConfigParser
 import urllib, httplib
+from gentoostats.payload import Payload
 
-def getAuthInfo(auth='/etc/gentoostats/auth.cfg'):
+def getAuthInfo(auth):
   config = ConfigParser.ConfigParser()
   if len(config.read(auth)) == 0:
-	sys.stderr.write('Cannot read '+auth)
+	sys.stderr.write('Cannot read ' + auth)
 	sys.exit(1)
 
   try:
@@ -31,15 +32,31 @@ def serialize(object, human=False):
   return json.JSONEncoder(indent=indent, sort_keys=sort_keys).encode(object)
 
 def main():
-  pl = Payload()
+  parser = argparse.ArgumentParser(description='Gentoostats client')
+  parser.add_argument('-s', '--server', default='soc.dev.gentoo.org')
+  parser.add_argument('-p', '--port', type = int, default=80)
+  parser.add_argument('-u', '--url', default='/gentoostats')
+  parser.add_argument('-a', '--auth', default='/etc/gentoostats/auth.cfg')
+  parser.add_argument('-c', '--config', default='/etc/gentoostats/payload.cfg')
+  args = vars(parser.parse_args())
+
+  pl = Payload(configfile=args['config'])
   pl.dump(human=True)
+
   post_data = pl.get()
-  post_data['AUTH'] = getAuthInfo()
+  post_data['AUTH'] = getAuthInfo(auth=args['auth'])
+
+  post_url = args['url'].strip('/')
+  if not len(post_url) == 0:
+	post_url = '/' + post_url
+  post_url = post_url + '/host/' + post_data['AUTH']['UUID']
+
   post_body = serialize(post_data,human=True)
-  post_headers = {"Content-type": "application/json"}
-  myuuid = getAuthInfo()['UUID']
-  conn = httplib.HTTPConnection("127.0.0.1:8080")
-  conn.request('POST', '/host/' + myuuid, headers=post_headers, body=post_body)
+  post_headers = {'Content-type':'application/json'}
+
+  conn = httplib.HTTPConnection(args['server'] + ':' + str(args['port']))
+  conn.request('POST', url=post_url, headers=post_headers, body=post_body)
+
   #TODO: Handle exceptions
   response = conn.getresponse()
   print response.status, response.reason

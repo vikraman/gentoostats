@@ -8,7 +8,7 @@ from gentoostats.metadata import Metadata
 
 class Payload(object):
 
-  def __init__(self, configfile='/etc/gentoostats/payload.cfg'):
+  def __init__(self, configfile):
 	self.config = ConfigParser.ConfigParser()
 	if len(self.config.read(configfile)) == 0:
 	  sys.stderr.write('Cannot read ' + configfile)
