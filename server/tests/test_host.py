@@ -2,7 +2,7 @@
 import uuid
 import json
 import unittest
-from main import app
+from app import app
 
 class TestHost(unittest.TestCase):
 
