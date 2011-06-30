@@ -34,7 +34,7 @@ def serialize(object, human=False):
 def main():
   parser = argparse.ArgumentParser(description='Gentoostats client')
   parser.add_argument('-s', '--server', default='soc.dev.gentoo.org')
-  parser.add_argument('-p', '--port', type = int, default=80)
+  parser.add_argument('-p', '--port', type = int, default=443)
   parser.add_argument('-u', '--url', default='/gentoostats')
   parser.add_argument('-a', '--auth', default='/etc/gentoostats/auth.cfg')
   parser.add_argument('-c', '--config', default='/etc/gentoostats/payload.cfg')
@@ -54,7 +54,7 @@ def main():
   post_body = serialize(post_data,human=True)
   post_headers = {'Content-type':'application/json'}
 
-  conn = httplib.HTTPConnection(args['server'] + ':' + str(args['port']))
+  conn = httplib.HTTPSConnection(args['server'] + ':' + str(args['port']))
   conn.request('POST', url=post_url, headers=post_headers, body=post_body)
 
   #TODO: Handle exceptions
