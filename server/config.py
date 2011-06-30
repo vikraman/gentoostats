@@ -1,4 +1,6 @@
 
+import os
+import sys
 import web
 
 db = web.database(
@@ -8,7 +10,8 @@ db = web.database(
 	db='gentoostats'
 	)
 
-render = web.template.render('templates/', base='layout')
+rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
+render = web.template.render(rootdir + 'templates/', base='layout')
 
 def notfound():
   return web.notfound(render.error_404())

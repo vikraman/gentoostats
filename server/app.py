@@ -18,4 +18,3 @@ app.internalerror = config.internalerror
 
 if __name__ == "__main__":
   app.run()
-
