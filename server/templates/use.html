@@ -1,0 +1,11 @@
+$def with (use_data)
+$var title: Use
+
+<table border="1">
+  <tr>
+	<th>Use</th>
+	<th>Hosts</th>
+  </tr>
+  $for use in use_data.keys():
+    <tr><td>$use</td><td>$use_data[use]['HOSTS']</td></tr>
+</table>

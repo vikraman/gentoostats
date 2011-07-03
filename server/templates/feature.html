@@ -1,0 +1,11 @@
+$def with (feature_data)
+$var title: Feature
+
+<table border="1">
+  <tr>
+	<th>Feature</th>
+	<th>Hosts</th>
+  </tr>
+  $for feature in feature_data.keys():
+    <tr><td>$feature</td><td>$feature_data[feature]['HOSTS']</td></tr>
+</table>

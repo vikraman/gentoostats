@@ -1,0 +1,11 @@
+$def with (mirror_data)
+$var title: Mirror
+
+<table border="1">
+  <tr>
+	<th>Mirror</th>
+	<th>Hosts</th>
+  </tr>
+  $for mirror in mirror_data.keys():
+    <tr><td>$mirror</td><td>$mirror_data[mirror]['HOSTS']</td></tr>
+</table>

@@ -1,0 +1,11 @@
+$def with (arch_data)
+$var title: Arch
+
+<table border="1">
+  <tr>
+	<th>Arch</th>
+	<th>Hosts</th>
+  </tr>
+  $for arch in arch_data.keys():
+    <tr><td>$arch</td><td>$arch_data[arch]['HOSTS']</td></tr>
+</table>
