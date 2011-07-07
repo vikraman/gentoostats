@@ -12,6 +12,7 @@ from kwd import Keyword
 from use import Use
 from repo import Repo
 from lang import Lang
+from package import Package
 from host import Host
 
 urls = (
@@ -24,6 +25,9 @@ urls = (
 	r'/use', 'Use',
 	r'/repo', 'Repo',
 	r'/lang', 'Lang',
+	r'/package/(.+)/(.+)', 'Package',
+	r'/package/(.+)', 'Package',
+	r'/package', 'Package',
 	r'/host/(.+)', 'Host'
 	)
 

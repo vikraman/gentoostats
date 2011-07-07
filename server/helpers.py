@@ -1,6 +1,7 @@
 
 import uuid
 import re
+from portage.versions import catpkgsplit
 
 # check valid uuid
 
@@ -15,22 +16,21 @@ def uuidbin(string):
   u = uuid.UUID(string)
   return u.bytes
 
-# split package name into cpv
-# based on pkgsplit code 
-# in portage/versions.py
+# custom pkgsplit
 
 def pkgsplit(pkgname):
-  cpv={}
-  pkgsplit = pkgname.split('/',1)
-  cpv['cat'] = pkgsplit[0]
-  pv_re =re.compile(r'(?x)^(?P<pn>[\w\+][\w\+-]*?(?P<pn_inval>-(cvs\.)?(\d+)((\.\d+)*)([a-z]?)((_(pre|p|beta|alpha|rc)\d*)*)(-r(\d+))?)?)-(?P<ver>(cvs\.)?(\d+)((\.\d+)*)([a-z]?)((_(pre|p|beta|alpha|rc)\d*)*))(-r(?P<rev>\d+))?$')
-  m = pv_re.match(pkgsplit[1])
-  cpv['pkg'] = m.group('pn')
-  rev = m.group('rev')
-  if rev is None:
- 	cpv['ver'] = m.group('ver')
+  cpv={'cat':'','pkg':'','ver':''}
+  cpvr = catpkgsplit(pkgname)
+  if cpvr is None:
+	pkgsplit = pkgname.split('/')
+	cpv['cat'] = pkgsplit[0]
+	cpv['pkg'] = pkgsplit[1]
   else:
-	cpv['ver'] = m.group('ver') + '-r' + rev
+	cpv['cat'] = cpvr[0]
+	cpv['pkg'] = cpvr[1]
+	cpv['ver'] = cpvr[2]
+	if cpvr[3] != 'r0':
+	  cpv['ver'] = cpv['ver'] + '-' + cpvr[3]
   return cpv
 
 # get functions for index keys
