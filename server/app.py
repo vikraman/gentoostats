@@ -22,12 +22,13 @@ urls = (
 	r'/mirror', 'Mirror',
 	r'/feature', 'Feature',
 	r'/keyword', 'Keyword',
-	r'/use', 'Use',
 	r'/repo', 'Repo',
 	r'/lang', 'Lang',
 	r'/package/(.+)/(.+)', 'Package',
 	r'/package/(.+)', 'Package',
 	r'/package', 'Package',
+	r'/use/(.+)', 'Use',
+	r'/use', 'Use',
 	r'/host/(.+)', 'Host'
 	)
 
