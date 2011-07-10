@@ -4,18 +4,17 @@ import sys
 import web
 
 db = web.database(
-	dbn='mysql',
-	user='gentoo',
-	pw='gentoo',
-	db='gentoostats'
-	)
+        dbn='mysql',
+        user='gentoo',
+        pw='gentoo',
+        db='gentoostats'
+        )
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
 render = web.template.render(rootdir + 'templates/', base='layout')
 
 def notfound():
-  return web.notfound(render.error_404())
+    return web.notfound(render.error_404())
 
 def internalerror():
-  return web.internalerror(render.error_500())
-
+    return web.internalerror(render.error_500())

@@ -8,59 +8,59 @@ import urllib, httplib
 from gentoostats.payload import Payload
 
 def getAuthInfo(auth):
-  config = ConfigParser.ConfigParser()
-  if len(config.read(auth)) == 0:
-	sys.stderr.write('Cannot read ' + auth)
-	sys.exit(1)
+    config = ConfigParser.ConfigParser()
+    if len(config.read(auth)) == 0:
+        sys.stderr.write('Cannot read ' + auth)
+        sys.exit(1)
 
-  try:
-	uuid = config.get('AUTH', 'UUID')
-	passwd = config.get('AUTH', 'PASSWD')
-	auth_info = {'UUID' : uuid, 'PASSWD' : passwd}
-	return auth_info
-  except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
-	sys.stderr.write('Malformed auth config')
-	sys.exit(1)
+    try:
+        uuid = config.get('AUTH', 'UUID')
+        passwd = config.get('AUTH', 'PASSWD')
+        auth_info = {'UUID' : uuid, 'PASSWD' : passwd}
+        return auth_info
+    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
+        sys.stderr.write('Malformed auth config')
+        sys.exit(1)
 
 def serialize(object, human=False):
-  if human:
-	indent = 2
-	sort_keys = True
-  else:
-  	indent = None
-	sort_keys = False
-  return json.JSONEncoder(indent=indent, sort_keys=sort_keys).encode(object)
+    if human:
+        indent = 2
+        sort_keys = True
+    else:
+        indent = None
+        sort_keys = False
+    return json.JSONEncoder(indent=indent, sort_keys=sort_keys).encode(object)
 
 def main():
-  parser = argparse.ArgumentParser(description='Gentoostats client')
-  parser.add_argument('-s', '--server', default='soc.dev.gentoo.org')
-  parser.add_argument('-p', '--port', type = int, default=443)
-  parser.add_argument('-u', '--url', default='/gentoostats')
-  parser.add_argument('-a', '--auth', default='/etc/gentoostats/auth.cfg')
-  parser.add_argument('-c', '--config', default='/etc/gentoostats/payload.cfg')
-  args = vars(parser.parse_args())
+    parser = argparse.ArgumentParser(description='Gentoostats client')
+    parser.add_argument('-s', '--server', default='soc.dev.gentoo.org')
+    parser.add_argument('-p', '--port', type = int, default=443)
+    parser.add_argument('-u', '--url', default='/gentoostats')
+    parser.add_argument('-a', '--auth', default='/etc/gentoostats/auth.cfg')
+    parser.add_argument('-c', '--config', default='/etc/gentoostats/payload.cfg')
+    args = vars(parser.parse_args())
 
-  pl = Payload(configfile=args['config'])
-  pl.dump(human=True)
+    pl = Payload(configfile=args['config'])
+    pl.dump(human=True)
 
-  post_data = pl.get()
-  post_data['AUTH'] = getAuthInfo(auth=args['auth'])
+    post_data = pl.get()
+    post_data['AUTH'] = getAuthInfo(auth=args['auth'])
 
-  post_url = args['url'].strip('/')
-  if not len(post_url) == 0:
-	post_url = '/' + post_url
-  post_url = post_url + '/host/' + post_data['AUTH']['UUID']
+    post_url = args['url'].strip('/')
+    if not len(post_url) == 0:
+        post_url = '/' + post_url
+    post_url = post_url + '/host/' + post_data['AUTH']['UUID']
 
-  post_body = serialize(post_data,human=True)
-  post_headers = {'Content-type':'application/json'}
+    post_body = serialize(post_data,human=True)
+    post_headers = {'Content-type':'application/json'}
 
-  conn = httplib.HTTPSConnection(args['server'] + ':' + str(args['port']))
-  conn.request('POST', url=post_url, headers=post_headers, body=post_body)
+    conn = httplib.HTTPSConnection(args['server'] + ':' + str(args['port']))
+    conn.request('POST', url=post_url, headers=post_headers, body=post_body)
 
-  #TODO: Handle exceptions
-  response = conn.getresponse()
-  print response.status, response.reason
-  print 'Server response: ' + response.read()
+    #TODO: Handle exceptions
+    response = conn.getresponse()
+    print response.status, response.reason
+    print 'Server response: ' + response.read()
 
 if __name__ == "__main__":
-  main()
+    main()

@@ -5,12 +5,12 @@ No. of hosts: $pdata['HOST_COUNT']</br>
 No. of category-package-versions: $pdata['CPV_COUNT']</br>
 Top CPVs:</br>
 <table border="1">
-  <tr>
-	<th>Category</th>
-	<th>Package</th>
-	<th>Version</th>
-	<th>Hosts</th>
-  </tr>
-  $for p in pdata['TOP_CPV']:
-    <tr><td>$p['CAT']</td><td>$p['PKG']</td><td>$p['VER']</td><td>$p['HOST_COUNT']</td></tr>
+    <tr>
+        <th>Category</th>
+        <th>Package</th>
+        <th>Version</th>
+        <th>Hosts</th>
+    </tr>
+    $for p in pdata['TOP_CPV']:
+        <tr><td>$p['CAT']</td><td>$p['PKG']</td><td>$p['VER']</td><td>$p['HOST_COUNT']</td></tr>
 </table>

@@ -6,11 +6,11 @@ No. of category-packages: $pdata['CP_COUNT']</br>
 No. of category-package-versions: $pdata['CPV_COUNT']</br>
 Top CPs:</br>
 <table border="1">
-  <tr>
-	<th>Category</th>
-	<th>Package</th>
-	<th>Hosts</th>
-  </tr>
-  $for p in pdata['TOP_CP']:
-    <tr><td>$p['CAT']</td><td>$p['PKG']</td><td>$p['HOST_COUNT']</td></tr>
+    <tr>
+        <th>Category</th>
+        <th>Package</th>
+        <th>Hosts</th>
+    </tr>
+    $for p in pdata['TOP_CP']:
+        <tr><td>$p['CAT']</td><td>$p['PKG']</td><td>$p['HOST_COUNT']</td></tr>
 </table>

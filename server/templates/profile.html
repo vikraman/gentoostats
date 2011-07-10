@@ -2,10 +2,10 @@ $def with (profile_data)
 $var title: Profile
 
 <table border="1">
-  <tr>
-	<th>Profile/th>
-	<th>Hosts</th>
-  </tr>
-  $for profile in profile_data.keys():
-    <tr><td>$profile</td><td>$profile_data[profile]['HOSTS']</td></tr>
+    <tr>
+        <th>Profile/th>
+        <th>Hosts</th>
+    </tr>
+    $for profile in profile_data.keys():
+        <tr><td>$profile</td><td>$profile_data[profile]['HOSTS']</td></tr>
 </table>

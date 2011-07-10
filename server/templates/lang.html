@@ -2,10 +2,10 @@ $def with (lang_data)
 $var title: Lang
 
 <table border="1">
-  <tr>
-	<th>Lang</th>
-	<th>Hosts</th>
-  </tr>
-  $for lang in lang_data.keys():
-    <tr><td>$lang</td><td>$lang_data[lang]['HOSTS']</td></tr>
+    <tr>
+        <th>Lang</th>
+        <th>Hosts</th>
+    </tr>
+    $for lang in lang_data.keys():
+        <tr><td>$lang</td><td>$lang_data[lang]['HOSTS']</td></tr>
 </table>

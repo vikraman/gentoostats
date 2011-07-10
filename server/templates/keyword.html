@@ -2,11 +2,11 @@ $def with (keyword_data)
 $var title: Keyword
 
 <table border="1">
-  <tr>
-	<th>Keyword</th>
-	<th>Hosts</th>
-	<th>Packages</th>
-  </tr>
-  $for keyword in keyword_data.keys():
-    <tr><td>$keyword</td><td>$keyword_data[keyword]['HOSTS']</td><td>$keyword_data[keyword]['PACKAGES']</td></tr>
+    <tr>
+        <th>Keyword</th>
+        <th>Hosts</th>
+        <th>Packages</th>
+    </tr>
+    $for keyword in keyword_data.keys():
+        <tr><td>$keyword</td><td>$keyword_data[keyword]['HOSTS']</td><td>$keyword_data[keyword]['PACKAGES']</td></tr>
 </table>

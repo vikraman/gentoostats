@@ -16,21 +16,21 @@ from package import Package
 from host import Host
 
 urls = (
-	r'/', 'Index',
-	r'/arch', 'Arch',
-	r'/profile', 'Profile',
-	r'/mirror', 'Mirror',
-	r'/feature', 'Feature',
-	r'/keyword', 'Keyword',
-	r'/repo', 'Repo',
-	r'/lang', 'Lang',
-	r'/package/(.+)/(.+)', 'Package',
-	r'/package/(.+)', 'Package',
-	r'/package', 'Package',
-	r'/use/(.+)', 'Use',
-	r'/use', 'Use',
-	r'/host/(.+)', 'Host'
-	)
+        r'/', 'Index',
+        r'/arch', 'Arch',
+        r'/profile', 'Profile',
+        r'/mirror', 'Mirror',
+        r'/feature', 'Feature',
+        r'/keyword', 'Keyword',
+        r'/repo', 'Repo',
+        r'/lang', 'Lang',
+        r'/package/(.+)/(.+)', 'Package',
+        r'/package/(.+)', 'Package',
+        r'/package', 'Package',
+        r'/use/(.+)', 'Use',
+        r'/use', 'Use',
+        r'/host/(.+)', 'Host'
+        )
 
 app = web.application(urls, globals())
 
@@ -38,4 +38,4 @@ app.notfound = config.notfound
 app.internalerror = config.internalerror
 
 if __name__ == "__main__":
-  app.run()
+    app.run()

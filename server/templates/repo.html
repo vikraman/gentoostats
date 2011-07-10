@@ -2,11 +2,11 @@ $def with (repo_data)
 $var title: Repository
 
 <table border="1">
-  <tr>
-	<th>Repository</th>
-	<th>Hosts</th>
-	<th>Packages</th>
-  </tr>
-  $for repo in repo_data.keys():
-    <tr><td>$repo</td><td>$repo_data[repo]['HOSTS']</td><td>$repo_data[repo]['PACKAGES']</td></tr>
+    <tr>
+        <th>Repository</th>
+        <th>Hosts</th>
+        <th>Packages</th>
+    </tr>
+    $for repo in repo_data.keys():
+        <tr><td>$repo</td><td>$repo_data[repo]['HOSTS']</td><td>$repo_data[repo]['PACKAGES']</td></tr>
 </table>
