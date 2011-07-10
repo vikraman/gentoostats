@@ -21,7 +21,7 @@ class Host(object):
 
         env = db.select('ENV', vars={'uuid':uuid}, where="UUID=$uuid")
         e = env[0]
-        for var in ['PLATFORM','LASTSYNC','PROFILE','ARCH','CHOST','CFLAGS','CXXFLAGS','FFLAGS','LDFLAGS','MAKEOPTS','SYNC']:
+        for var in ['PLATFORM', 'LASTSYNC', 'PROFILE', 'ARCH', 'CHOST', 'CFLAGS', 'CXXFLAGS', 'FFLAGS', 'LDFLAGS', 'MAKEOPTS', 'SYNC']:
             host_data[var] = e[var]
 
         host_data['FEATURES'] = list()

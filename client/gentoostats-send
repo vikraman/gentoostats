@@ -51,7 +51,7 @@ def main():
         post_url = '/' + post_url
     post_url = post_url + '/host/' + post_data['AUTH']['UUID']
 
-    post_body = serialize(post_data,human=True)
+    post_body = serialize(post_data, human=True)
     post_headers = {'Content-type':'application/json'}
 
     conn = httplib.HTTPSConnection(args['server'] + ':' + str(args['port']))

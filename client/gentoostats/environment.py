@@ -34,7 +34,7 @@ class Environment(object):
             if profilever is None:
                 try:
                     for parent in portage.grabfile(os.path.join(profile, 'parent')):
-                        profilever = relative_profile_path(self.portdir,os.path.join(profile, parent))
+                        profilever = relative_profile_path(self.portdir, os.path.join(profile, parent))
                         if profilever is not None:
                             break
                 except portage.exception.PortageException:

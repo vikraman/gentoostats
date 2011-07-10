@@ -22,5 +22,5 @@ class TestIndex(unittest.TestCase):
             if line.startswith('Number of hosts'):
                 words = line.split()
                 count = int(words[-1].strip('</br>'))
-                self.assertGreaterEqual(count,0)
+                self.assertGreaterEqual(count, 0)
                 break

@@ -24,10 +24,10 @@ class Package(object):
             return config.internalerror()
 
     def __GET(self, top):
-        p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT,\
-                COUNT(DISTINCT CAT) AS C_COUNT,\
-                COUNT(DISTINCT CAT,PKG) AS CP_COUNT,\
-                COUNT(DISTINCT CAT,PKG,VER) AS CPV_COUNT\
+        p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
+                COUNT(DISTINCT CAT) AS C_COUNT, \
+                COUNT(DISTINCT CAT, PKG) AS CP_COUNT, \
+                COUNT(DISTINCT CAT, PKG, VER) AS CPV_COUNT\
                 FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
                 ON INSTALLED_PACKAGES.PKEY = PACKAGES.PKEY')
         p_tuple = p_query[0]
@@ -41,9 +41,9 @@ class Package(object):
         return render.package(p_data)
 
     def __GET_C(self, top, cat):
-        p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT,\
-                COUNT(DISTINCT CAT,PKG) AS CP_COUNT,\
-                COUNT(DISTINCT CAT,PKG,VER) AS CPV_COUNT\
+        p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
+                COUNT(DISTINCT CAT, PKG) AS CP_COUNT, \
+                COUNT(DISTINCT CAT, PKG, VER) AS CPV_COUNT\
                 FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
                 ON INSTALLED_PACKAGES.PKEY = PACKAGES.PKEY\
                 WHERE CAT=$cat', vars={'cat':cat})
@@ -57,11 +57,11 @@ class Package(object):
         return render.package_c(cat, p_data)
 
     def __GET_CP(self, top, cat, pkg):
-        p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT,\
-                COUNT(DISTINCT CAT,PKG,VER) AS CPV_COUNT\
+        p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
+                COUNT(DISTINCT CAT, PKG, VER) AS CPV_COUNT\
                 FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
                 ON INSTALLED_PACKAGES.PKEY = PACKAGES.PKEY\
-                WHERE CAT=$cat AND PKG=$pkg', vars={'cat':cat,'pkg':pkg})
+                WHERE CAT=$cat AND PKG=$pkg', vars={'cat':cat, 'pkg':pkg})
         p_tuple = p_query[0]
         p_data = {
                 'HOST_COUNT':p_tuple['HOST_COUNT'],
@@ -74,7 +74,7 @@ class Package(object):
         p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT\
                 FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
                 ON INSTALLED_PACKAGES.PKEY = PACKAGES.PKEY\
-                WHERE CAT=$cat AND PKG=$pkg AND VER=$ver', vars={'cat':cat,'pkg':pkg,'ver':ver})
+                WHERE CAT=$cat AND PKG=$pkg AND VER=$ver', vars={'cat':cat, 'pkg':pkg, 'ver':ver})
         p_tuple = p_query[0]
         p_data = {
                 'HOST_COUNT':p_tuple['HOST_COUNT'],
@@ -84,12 +84,12 @@ class Package(object):
     def __top(self, count, *args):
         t_list = list()
         if len(args) == 0:
-            tc_query = db.query('SELECT CAT,COUNT(DISTINCT UUID) AS HOST_COUNT\
+            tc_query = db.query('SELECT CAT, COUNT(DISTINCT UUID) AS HOST_COUNT\
                     FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
                     ON INSTALLED_PACKAGES.PKEY = PACKAGES.PKEY\
                     GROUP BY CAT\
-                    ORDER BY HOST_COUNT DESC,CAT')
-            for idx in range(0,count):
+                    ORDER BY HOST_COUNT DESC, CAT')
+            for idx in range(0, count):
                 try:
                     tc_tuple = tc_query[idx]
                     t_list.append({
@@ -100,14 +100,14 @@ class Package(object):
                     break
 
         elif len(args) == 1:
-            tcp_query = db.query('SELECT CAT,PKG,COUNT(DISTINCT UUID) AS HOST_COUNT\
+            tcp_query = db.query('SELECT CAT, PKG, COUNT(DISTINCT UUID) AS HOST_COUNT\
                     FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
                     ON INSTALLED_PACKAGES.PKEY = PACKAGES.PKEY\
                     WHERE CAT=$cat\
-                    GROUP BY CAT,PKG\
-                    ORDER BY HOST_COUNT DESC,CAT,PKG',
+                    GROUP BY CAT, PKG\
+                    ORDER BY HOST_COUNT DESC, CAT, PKG',
                     vars={'cat':args[0]})
-            for idx in range(0,count):
+            for idx in range(0, count):
                 try:
                     tcp_tuple = tcp_query[idx]
                     t_list.append({
@@ -119,14 +119,14 @@ class Package(object):
                     break
 
         elif len(args) == 2:
-            tcpv_query = db.query('SELECT CAT,PKG,VER,COUNT(DISTINCT UUID) AS HOST_COUNT\
+            tcpv_query = db.query('SELECT CAT, PKG, VER, COUNT(DISTINCT UUID) AS HOST_COUNT\
                   FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
                   ON INSTALLED_PACKAGES.PKEY = PACKAGES.PKEY\
                   WHERE CAT=$cat AND PKG=$pkg\
-                  GROUP BY CAT,PKG,VER\
-                  ORDER BY HOST_COUNT DESC,CAT,PKG,VER',
-                  vars={'cat':args[0],'pkg':args[1]})
-            for idx in range(0,count):
+                  GROUP BY CAT, PKG, VER\
+                  ORDER BY HOST_COUNT DESC, CAT, PKG, VER',
+                  vars={'cat':args[0], 'pkg':args[1]})
+            for idx in range(0, count):
                 try:
                     tcpv_tuple = tcpv_query[idx]
                     t_list.append({

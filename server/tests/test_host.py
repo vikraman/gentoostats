@@ -38,7 +38,7 @@ class TestHost(unittest.TestCase):
         self.assertEqual(self.b.status, 500)
         # post with empty payload
         payload = {
-                'AUTH':{'UUID':str_uuid,'PASSWD':'test'},
+                'AUTH':{'UUID':str_uuid, 'PASSWD':'test'},
                 'PROTOCOL':1
                 }
         data = json.JSONEncoder().encode(payload)
@@ -51,11 +51,11 @@ class TestHost(unittest.TestCase):
         uri = '/host/' + str_uuid
         # different uuid in payload
         payload = {
-                'AUTH':{'UUID':str(uuid.uuid4()),'PASSWD':'test'},
+                'AUTH':{'UUID':str(uuid.uuid4()), 'PASSWD':'test'},
                 'PROTOCOL':1
                 }
         data = json.JSONEncoder().encode(payload)
-        self.b.open(uri,data)
+        self.b.open(uri, data)
         self.assertEqual(self.b.path, uri)
         self.assertEqual(self.b.status, 200)
         self.assertTrue('Invalid uuid' in self.b.data)
@@ -64,18 +64,18 @@ class TestHost(unittest.TestCase):
         str_uuid = str(uuid.uuid4())
         uri = '/host/' + str_uuid
         payload = {
-                'AUTH':{'UUID':str_uuid,'PASSWD':'test'},
+                'AUTH':{'UUID':str_uuid, 'PASSWD':'test'},
                 'PROTOCOL':1
                 }
-        for var in ['PLATFORM','PROFILE','LASTSYNC']:
+        for var in ['PLATFORM', 'PROFILE', 'LASTSYNC']:
             payload[var] = 'Unknown'
-        for var in ['ARCH','CHOST','CFLAGS','CXXFLAGS','FFLAGS','LDFLAGS','MAKEOPTS','SYNC']:
+        for var in ['ARCH', 'CHOST', 'CFLAGS', 'CXXFLAGS', 'FFLAGS', 'LDFLAGS', 'MAKEOPTS', 'SYNC']:
             payload[var] = None
-        for var in ['ACCEPT_KEYWORDS','LANG','GENTOO_MIRRORS','FEATURES','USE']:
+        for var in ['ACCEPT_KEYWORDS', 'LANG', 'GENTOO_MIRRORS', 'FEATURES', 'USE']:
             payload[var] = []
         payload['PACKAGES'] = {}
         data = json.JSONEncoder().encode(payload)
-        self.b.open(uri,data)
+        self.b.open(uri, data)
         self.assertEqual(self.b.path, uri)
         self.assertEqual(self.b.status, 200)
         self.assertTrue('POST for ' + str_uuid + ' successful' in self.b.data)

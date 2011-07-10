@@ -7,7 +7,7 @@ from gentoolkit.enalyze.lib import KeywordAnalyser
 class Metadata(object):
 
     def __init__(self, cpv):
-        self.repo, self.counter, self.build_time, self.size = VARDB.aux_get(cpv,['repository','COUNTER','BUILD_TIME','SIZE'])
+        self.repo, self.counter, self.build_time, self.size = VARDB.aux_get(cpv, ['repository', 'COUNTER', 'BUILD_TIME', 'SIZE'])
 
         system_use = portage.settings['USE'].split()
         fa = FlagAnalyzer(system=system_use)
@@ -15,7 +15,7 @@ class Metadata(object):
 
         arch = portage.settings['ARCH']
         accept_keywords = portage.settings['ACCEPT_KEYWORDS'].split()
-        ka = KeywordAnalyser(arch=arch,accept_keywords=accept_keywords)
+        ka = KeywordAnalyser(arch=arch, accept_keywords=accept_keywords)
         self.keyword = ka.get_inst_keyword_cpv(cpv)
 
     def getPlusFlags(self):
