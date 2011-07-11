@@ -2,15 +2,18 @@
 import os
 import sys
 import web
-
-db = web.database(
-        dbn='mysql',
-        user='gentoostats',
-        pw='poicyurp3ZaddajGhaf',
-        db='gentoostats'
-        )
+from dbconfig import DBConfig
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
+
+dbconfig = DBConfig(rootdir + 'db.cfg').get_config()
+db = web.database(
+        dbn='mysql',
+        db=dbconfig['DB'],
+        user=dbconfig['USER'],
+        pw=dbconfig['PASS']
+        )
+
 render = web.template.render(rootdir + 'templates/', base='layout')
 
 def notfound():

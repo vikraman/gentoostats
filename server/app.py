@@ -33,7 +33,7 @@ urls = (
         r'/host/(.+)', 'Host'
         )
 
-app = web.application(urls, globals())
+app = web.application(urls, globals(), autoreload=True)
 
 app.notfound = config.notfound
 app.internalerror = config.internalerror
