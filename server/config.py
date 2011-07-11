@@ -5,8 +5,8 @@ import web
 
 db = web.database(
         dbn='mysql',
-        user='gentoo',
-        pw='gentoo',
+        user='gentoostats',
+        pw='poicyurp3ZaddajGhaf',
         db='gentoostats'
         )
 

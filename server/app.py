@@ -16,6 +16,7 @@ from package import Package
 from host import Host
 
 urls = (
+        r'', 'Index',
         r'/', 'Index',
         r'/arch', 'Arch',
         r'/profile', 'Profile',
