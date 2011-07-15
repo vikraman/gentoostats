@@ -38,10 +38,13 @@ def main():
     parser.add_argument('-u', '--url', default='/gentoostats')
     parser.add_argument('-a', '--auth', default='/etc/gentoostats/auth.cfg')
     parser.add_argument('-c', '--config', default='/etc/gentoostats/payload.cfg')
+    parser.add_argument('-v', '--verbose', action='store_true')
     args = vars(parser.parse_args())
 
     pl = Payload(configfile=args['config'])
-    pl.dump(human=True)
+
+    if args['verbose']:
+        pl.dump(human=True)
 
     post_data = pl.get()
     post_data['AUTH'] = getAuthInfo(auth=args['auth'])
