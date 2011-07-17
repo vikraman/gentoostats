@@ -1,0 +1,14 @@
+$def with (tuples)
+$var title: Search
+
+<table border="1">
+    <tr>
+        <th>Category</th>
+        <th>Package</th>
+        <th>Version</th>
+        <th>Repository</th>
+        <th>Hosts</th>
+    </tr>
+    $for t in tuples:
+      <tr><td>$t['CAT']</td><td>$t['PKG']</td><td>$t['VER']</td><td>$t['REPO']</td><td>$t['HOSTS']</td></tr>
+</table>

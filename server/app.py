@@ -14,6 +14,7 @@ from repo import Repo
 from lang import Lang
 from package import Package
 from host import Host
+from search import Search
 
 urls = (
         r'', 'Index',
@@ -30,7 +31,8 @@ urls = (
         r'/package', 'Package',
         r'/use/(.+)', 'Use',
         r'/use', 'Use',
-        r'/host/(.+)', 'Host'
+        r'/host/(.+)', 'Host',
+        r'/search', 'Search'
         )
 
 app = web.application(urls, globals(), autoreload=True)
