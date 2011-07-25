@@ -3,9 +3,12 @@
 import sys
 import importlib
 
-actions = {'list':'gentoostats.list', 'search':'gentooostats.search'}
+actions = {
+        'list': 'gentoostats.list',
+        'search': 'gentooostats.search'
+        }
 
-def print_usage():
+def print_usage(actions):
     print 'Usage:', sys.argv[0], '<action>'
     print 'Available actions:'
     for action in actions.keys():
@@ -14,7 +17,7 @@ def print_usage():
 def main():
     argc = len(sys.argv)
     if argc == 1:
-        print_usage()
+        print_usage(actions)
         sys.exit(1)
     try:
         loaded_module = importlib.import_module(actions[sys.argv[1]])
