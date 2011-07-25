@@ -1,4 +1,5 @@
 
+import helpers
 from config import render, db
 
 class Feature(object):
@@ -7,4 +8,7 @@ class Feature(object):
         feature_data = dict()
         for t in feature_count:
             feature_data[t['FEATURE']] = {'HOSTS':t['HOSTS']}
-        return render.feature(feature_data)
+        if helpers.is_json_request():
+            return helpers.serialize(feature_data)
+        else:
+            return render.feature(feature_data)

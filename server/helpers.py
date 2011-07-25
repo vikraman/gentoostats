@@ -1,4 +1,6 @@
 
+import web
+import json
 import uuid
 import re
 from portage.versions import catpkgsplit
@@ -106,3 +108,13 @@ def get_rkey(db, repo):
     else:
         rkey = db.insert('REPOSITORIES', REPO=repo)
     return rkey
+
+def is_json_request():
+    return web.ctx.environ['HTTP_ACCEPT'].find('json') != -1
+
+def serialize(object, human=True):
+    if human:
+        indent = 2
+    else:
+        indent = None
+    return json.JSONEncoder(indent=indent).encode(object)

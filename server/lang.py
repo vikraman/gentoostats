@@ -1,4 +1,5 @@
 
+import helpers
 from config import render, db
 
 class Lang(object):
@@ -7,4 +8,7 @@ class Lang(object):
         lang_data = dict()
         for t in lang_count:
             lang_data[t['LANG']] = {'HOSTS':t['HOSTS']}
-        return render.lang(lang_data)
+        if helpers.is_json_request():
+            return helpers.serialize(lang_data)
+        else:
+            return render.lang(lang_data)

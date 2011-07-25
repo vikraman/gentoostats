@@ -1,4 +1,5 @@
 
+import helpers
 from config import render, db
 
 class Mirror(object):
@@ -7,4 +8,7 @@ class Mirror(object):
         mirror_data = dict()
         for t in mirror_count:
             mirror_data[t['MIRROR']] = {'HOSTS':t['HOSTS']}
-        return render.mirror(mirror_data)
+        if helpers.is_json_request():
+            return helpers.serialize(mirror_data)
+        else:
+            return render.mirror(mirror_data)

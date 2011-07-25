@@ -38,7 +38,10 @@ class Package(object):
                 'CPV_COUNT':p_tuple['CPV_COUNT'],
                 'TOP_C':self.__top(top)
                 }
-        return render.package(p_data)
+        if helpers.is_json_request():
+            return helpers.serialize(p_data)
+        else:
+            return render.package(p_data)
 
     def __GET_C(self, top, cat):
         p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
@@ -54,7 +57,10 @@ class Package(object):
                 'CPV_COUNT':p_tuple['CPV_COUNT'],
                 'TOP_CP':self.__top(top, cat)
                 }
-        return render.package_c(cat, p_data)
+        if helpers.is_json_request():
+            return helpers.serialize(p_data)
+        else:
+            return render.package_c(cat, p_data)
 
     def __GET_CP(self, top, cat, pkg):
         p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
@@ -68,7 +74,10 @@ class Package(object):
                 'CPV_COUNT':p_tuple['CPV_COUNT'],
                 'TOP_CPV':self.__top(top, cat, pkg)
                 }
-        return render.package_cp(cat, pkg, p_data)
+        if helpers.is_json_request():
+            return helpers.serialize(p_data)
+        else:
+            return render.package_cp(cat, pkg, p_data)
 
     def __GET_CPV(self, cat, pkg, ver):
         p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT\
@@ -79,7 +88,10 @@ class Package(object):
         p_data = {
                 'HOST_COUNT':p_tuple['HOST_COUNT'],
                 }
-        return render.package_cpv(cat, pkg, ver, p_data)
+        if helpers.is_json_request():
+            return helpers.serialize(p_data)
+        else:
+            return render.package_cpv(cat, pkg, ver, p_data)
 
     def __top(self, count, *args):
         t_list = list()

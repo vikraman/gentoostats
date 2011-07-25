@@ -1,4 +1,5 @@
 
+import helpers
 from config import render, db
 
 class Repo(object):
@@ -7,4 +8,7 @@ class Repo(object):
         repo_data = dict()
         for t in repo_count:
             repo_data[t['REPO']] = {'HOSTS':t['HOSTS'], 'PACKAGES':t['PACKAGES']}
-        return render.repo(repo_data)
+        if helpers.is_json_request():
+            return helpers.serialize(repo_data)
+        else:
+            return render.repo(repo_data)

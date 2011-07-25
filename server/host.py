@@ -55,7 +55,10 @@ class Host(object):
             cpv = p['CAT'] + '/' + p['PKG'] + '-' + p['VER']
             host_data['PACKAGES'][cpv] = dict()
 
-        return render.host(host_data)
+        if helpers.is_json_request():
+            return helpers.serialize(host_data)
+        else:
+            return render.host(host_data)
 
     def POST(self, str_uuid):
         post_data = json.JSONDecoder().decode(web.data())

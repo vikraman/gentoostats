@@ -1,4 +1,5 @@
 
+import helpers
 from config import render, db
 
 class Keyword(object):
@@ -7,4 +8,7 @@ class Keyword(object):
         keyword_data = dict()
         for t in keyword_count:
             keyword_data[t['KEYWORD']] = {'HOSTS':t['HOSTS'], 'PACKAGES':t['PACKAGES']}
-        return render.keyword(keyword_data)
+        if helpers.is_json_request():
+            return helpers.serialize(keyword_data)
+        else:
+            return render.keyword(keyword_data)

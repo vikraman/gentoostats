@@ -1,4 +1,5 @@
 
+import helpers
 from config import render, db
 
 class Profile(object):
@@ -7,4 +8,7 @@ class Profile(object):
         profile_data = dict()
         for t in profile_count:
             profile_data[t['PROFILE']] = {'HOSTS':t['HOSTS']}
-        return render.profile(profile_data)
+        if helpers.is_json_request():
+            helpers.serialize(profile_data)
+        else:
+            return render.profile(profile_data)

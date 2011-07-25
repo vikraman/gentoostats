@@ -1,6 +1,7 @@
 
 import web
 import string
+import helpers
 from config import render, db
 
 what = ['CAT', 'PKG', 'VER', 'REPO', 'COUNT(DISTINCT UUID) AS HOSTS']
@@ -33,7 +34,10 @@ class Search(object):
             'repo':self.args.repo,
             'min_hosts':self.min_hosts,
             'max_hosts':self.max_hosts})
-        return render.search(search_tuples)
+        if helpers.is_json_request():
+            return helpers.serialize(search_tuples)
+        else:
+            return render.search(search_tuples)
 
     def _build_query(self, where, having):
         sep = ' '
