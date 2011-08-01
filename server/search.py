@@ -35,7 +35,16 @@ class Search(object):
             'min_hosts':self.min_hosts,
             'max_hosts':self.max_hosts})
         if helpers.is_json_request():
-            return helpers.serialize(search_tuples)
+            search_list = list()
+            for tuple in search_tuples:
+                search_list.append({
+                    'CAT': tuple['CAT'],
+                    'PKG': tuple['PKG'],
+                    'VER': tuple['VER'],
+                    'REPO': tuple['REPO'],
+                    'HOSTS': tuple['HOSTS']
+                    })
+            return helpers.serialize(search_list)
         else:
             return render.search(search_tuples)
 
