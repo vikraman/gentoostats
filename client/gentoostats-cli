@@ -3,7 +3,7 @@
 import argparse
 
 from gentoostats import list
-#from gentoostats import search
+from gentoostats import search
 
 def main():
     parser = argparse.ArgumentParser()
@@ -13,7 +13,7 @@ def main():
     subparsers = parser.add_subparsers()
 
     list.add_parser(subparsers)
-#    search.add_parser(subparsers)
+    search.add_parser(subparsers)
 
     args = parser.parse_args()
     args.func(args)
