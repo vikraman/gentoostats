@@ -9,6 +9,6 @@ class Profile(object):
         for t in profile_count:
             profile_data[t['PROFILE']] = {'HOSTS':t['HOSTS']}
         if helpers.is_json_request():
-            helpers.serialize(profile_data)
+            return helpers.serialize(profile_data)
         else:
             return render.profile(profile_data)
