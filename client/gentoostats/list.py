@@ -1,84 +1,93 @@
 
-import sys
-import json
-import httplib
 import utils
 
-objects = {
-        'arch': 'list_arch',
-        'feature': 'list_feature',
-        'lang': 'list_lang',
-        'mirror': 'list_mirror',
-        'repo': 'list_repo',
-        'cat': 'list_cat',
-        'cp': 'list_cp',
-        'cpv': 'list_cpv'
-        }
-
-server = 'soc.dev.gentoo.org'
-url = '/gentoostats'
-headers = {'Accept': 'application/json'}
-
-def print_usage(objects):
-    print 'Usage: list <object>'
-    print 'Available objects:'
-    for obj in objects.keys():
-        print obj
-
 def pprint(title, object):
-    print title
+    # TODO: write a custom pretty printer here
     import pprint
+    print title
     pprint.pprint(object)
 
-def main(opts):
-    l = len(opts)
-    if l == 0:
-        print_usage(objects)
-        sys.exit(1)
+def add_parser(subparsers):
+    # TODO: add help and descriptions for all opts
+    list_parser = subparsers.add_parser('list')
+    list_subparsers = list_parser.add_subparsers()
 
-    if opts[0] not in objects:
-        sys.stderr.write('Unknown object')
-        sys.exit(1)
+    objects = {
+            'arch': ['parser_arch', list_arch],
+            'feature': ['parser_feature', list_feature],
+            'lang': ['parser_lang', list_lang],
+            'mirror': ['parser_mirror', list_mirror],
+            'repo': ['parser_repo', list_repo],
+            'package': ['parser_package', list_package],
+            'use': ['parser_use', list_use]
+            }
+    for obj in objects.keys():
+        parser = vars()[objects[obj][0]] = list_subparsers.add_parser(obj)
+        parser.set_defaults(func=objects[obj][1])
 
-    try:
-        globals()[objects[opts[0]]](server, url, headers)
-    except KeyError:
-        sys.stderr.write('Unimplemented')
-        sys.exit(1)
+    # need separate arguments for package
+    parser = vars()[objects['package'][0]]
+    parser.add_argument('-t', '--top', type=int)
+    parser.add_argument('-c', '--category')
+    parser.add_argument('-p', '--package')
+    parser.add_argument('-v', '--version')
+
+    # need separate arguments for use
+    parser = vars()[objects['use'][0]]
+    parser.add_argument('--use')
+
+def list_arch(args):
+    data = list(args.server, args.url, '/arch', utils.headers)
+    pprint('Arch', data)
+
+def list_feature(args):
+    data = list(args.server, args.url, '/feature', utils.headers)
+    pprint('Feature', data)
+
+def list_lang(args):
+    data = list(args.server, args.url, '/lang', utils.headers)
+    pprint('Lang', data)
+
+def list_mirror(args):
+    data = list(args.server, args.url, '/mirror', utils.headers)
+    pprint('Mirror', data)
+
+def list_repo(args):
+    data = list(args.server, args.url, '/repo', utils.headers)
+    pprint('Repo', data)
+
+def list_package(args):
+    url_top = ''
+    if args.top:
+        url_top = '?top=' + str(args.top)
+
+    title = 'Categories'
+    url_pkg = '/package'
+    if args.category:
+        title = 'Category: ' + args.category
+        url_pkg += '/' + args.category
+        if args.package:
+            title = 'Category-Package: ' + args.category + '/' + args.package
+            url_pkg += '/' + args.package
+            if args.version:
+                title = 'Category-Package-Version: ' + args.category + '/' + args.package + '-' + args.version
+                url_pkg += '-' + args.version
+
+    data = list(args.server, args.url, url_pkg + url_top, utils.headers)
+    pprint(title, data)
+
+def list_use(args):
+    url_use = '/use'
+    title = 'Useflags'
+    if args.use:
+        title = 'Useflag: ' + args.use
+        url_use += '/' + args.use
+
+    data = list(args.server, args.url, url_use, utils.headers)
+    pprint(title, data)
+
 
 def list(server, url_base, url_extra, headers):
     get_data = utils.GET(server=server, url=url_base+url_extra, headers=headers)
     data = utils.deserialize(get_data)
     return data
-
-def list_arch(server, url, headers):
-    data = list(server, url, '/arch', headers)
-    pprint('Arch', data)
-
-def list_feature(server, url, headers):
-    data = list(server, url, '/feature', headers)
-    pprint('Feature', data)
-
-def list_lang(server, url, headers):
-    data = list(server, url, '/lang', headers)
-    pprint('Lang', data)
-
-def list_mirror(server, url, headers):
-    data = list(server, url, '/mirror', headers)
-    pprint('Mirror', data)
-
-def list_repo(server, url, headers):
-    data = list(server, url, '/repo', headers)
-    pprint('Repo', data)
-
-def list_cat(server, url, headers):
-    data = list(server, url, '/package', headers)
-    pprint('Category', data)
-
-def list_cp(server, url, headers):
-    data = list(server, url, '/package', headers)
-    pprint('Category/Package', data)
-
-def list_cpv(server, url, headers):
-    data = list(server, url, '/package', headers)
-    pprint('Category/Package-Version', data)

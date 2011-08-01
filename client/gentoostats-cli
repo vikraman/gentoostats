@@ -1,31 +1,22 @@
 #!/usr/bin/env python
 
-import sys
-import importlib
+import argparse
 
-actions = {
-        'list': 'gentoostats.list',
-        'search': 'gentooostats.search'
-        }
-
-def print_usage(actions):
-    print 'Usage:', sys.argv[0], '<action>'
-    print 'Available actions:'
-    for action in actions.keys():
-        print action
+from gentoostats import list
+#from gentoostats import search
 
 def main():
-    argc = len(sys.argv)
-    if argc == 1:
-        print_usage(actions)
-        sys.exit(1)
-    try:
-        loaded_module = importlib.import_module(actions[sys.argv[1]])
-        loaded_module.main(opts=sys.argv[2:])
-    except KeyError, ImportError:
-        sys.stderr.writelines('Unknown action')
-        sys.exit(1)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--server', default='soc.dev.gentoo.org')
+    parser.add_argument('-u', '--url', default='/gentoostats')
 
+    subparsers = parser.add_subparsers()
+
+    list.add_parser(subparsers)
+#    search.add_parser(subparsers)
+
+    args = parser.parse_args()
+    args.func(args)
 
 if __name__ == "__main__":
     main()
