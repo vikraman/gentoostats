@@ -29,8 +29,6 @@ def search(args):
     url_extra += ('?', '&')[bool(url_extra)] + 'min_hosts=' + str(args.min_hosts) if args.min_hosts else ''
     url_extra += ('?', '&')[bool(url_extra)] + 'max_hosts=' + str(args.max_hosts) if args.max_hosts else ''
 
-    print args.server + args.url + url_base + url_extra
-
     get_data = utils.GET(server = args.server, url = args.url + url_base + url_extra, headers = utils.headers)
     data = utils.deserialize(get_data)
 
