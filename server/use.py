@@ -1,4 +1,5 @@
 
+import helpers
 from config import render, db
 
 class Use(object):
@@ -8,7 +9,10 @@ class Use(object):
             use_query = db.query('SELECT COUNT(DISTINCT UKEY) AS USE_COUNT FROM USEFLAGS')
             use_tuple = use_query[0]
             use_data = {'USE_COUNT':use_tuple['USE_COUNT']}
-            return render.use(use_data)
+            if helpers.is_json_request():
+                return helpers.serialize(use_data)
+            else:
+                return render.use(use_data)
 
         elif l == 1:
             global_use_query = db.query('SELECT COUNT(DISTINCT UUID) AS GLOBAL_COUNT\
@@ -39,8 +43,10 @@ class Use(object):
                     'MINUS_COUNT':minus_use_tuple['MINUS_COUNT'],
                     'UNSET_COUNT':unset_use_tuple['UNSET_COUNT']
                     }
-
-            return render.use_useflag(args[0], use_data)
+            if helpers.is_json_request():
+                return helpers.serialize(use_data)
+            else:
+                return render.use_useflag(args[0], use_data)
 
         else:
             return config.internalerror()
