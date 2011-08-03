@@ -32,6 +32,7 @@ urls = (
         r'/use/(.+)', 'Use',
         r'/use', 'Use',
         r'/host/(.+)', 'Host',
+        r'/host', 'Host',
         r'/search', 'Search'
         )
 

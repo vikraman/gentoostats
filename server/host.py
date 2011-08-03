@@ -3,11 +3,22 @@ import web
 import json
 import helpers
 import config
+from web import form
 from config import render, db
+
+host_form = form.Form(
+        form.Textbox('uuid', description = 'UUID'),
+        form.Button('submit', description = 'Submit')
+        )
 
 class Host(object):
 
-    def GET(self, str_uuid):
+    def GET(self, *args):
+        if len(args) == 0:
+            form = host_form()
+            return render.host_input(form)
+
+        str_uuid = args[0]
         if not helpers.is_uuid(str_uuid):
             return config.notfound()
 
@@ -60,7 +71,15 @@ class Host(object):
         else:
             return render.host(host_data)
 
-    def POST(self, str_uuid):
+    def POST(self, *args):
+        if len(args) == 0:
+            form = host_form()
+            if not form.validates():
+                return render.host_input(form)
+            else:
+                raise web.seeother('/host/' + form['uuid'].value)
+
+        str_uuid = args[0]
         post_data = json.JSONDecoder().decode(web.data())
 
         #TODO: Handle exceptions
