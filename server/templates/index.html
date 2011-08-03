@@ -1,4 +1,4 @@
-$def with (count)
+$def with (count, form)
 $var title: Gentoostats
 
 Welcome to the gentoostats webapp <br/>
@@ -7,18 +7,18 @@ Number of hosts: $count<br/>
 
 <h2>Statistics</h2>
 <ul>
-    <li>Arch statistics: <a href="/gentoostats/arch">/arch</a></li>
-    <li>Portage feature statistics: <a href="/gentoostats/feature">/feature</a></li>
-    <li>Keyword statistics: <a href="/gentoostats/keyword">/keyword</a></li>
-    <li>Language statistics: <a href="/gentoostats/lang">/lang</a></li>
-    <li>Mirror statistics: <a href="/gentoostats/mirror">/mirror</a></li>
-    <li>Package statistics: <a href="/gentoostats/package">/package</a></li>
-    <li>Profile statistics: <a href="/gentoostats/profile">/profile</a></li>
-    <li>Repository statistics: <a href="/gentoostats/repo">/repo</a></li>
-    <li>Useflag statistics: <a href="/gentoostats/use">/use</a></li>
+    <li>Arch statistics: <a href="arch">/arch</a></li>
+    <li>Portage feature statistics: <a href="feature">/feature</a></li>
+    <li>Keyword statistics: <a href="keyword">/keyword</a></li>
+    <li>Language statistics: <a href="lang">/lang</a></li>
+    <li>Mirror statistics: <a href="mirror">/mirror</a></li>
+    <li>Package statistics: <a href="package">/package</a></li>
+    <li>Profile statistics: <a href="profile">/profile</a></li>
+    <li>Repository statistics: <a href="repo">/repo</a></li>
+    <li>Useflag statistics: <a href="use">/use</a></li>
 </ul>
 
 <h2>Package search</h2>
-<ul>
-    <li><a href="/gentoostats/search">/search</a></li>
-</ul>
+<form method="GET" action="/gentoostats/search">
+    $:form.render()
+</form>
