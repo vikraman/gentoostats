@@ -15,6 +15,7 @@ from lang import Lang
 from package import Package
 from host import Host
 from search import Search
+from about import About
 
 urls = (
         r'', 'Index',
@@ -33,7 +34,8 @@ urls = (
         r'/use', 'Use',
         r'/host/(.+)', 'Host',
         r'/host', 'Host',
-        r'/search', 'Search'
+        r'/search', 'Search',
+        r'/about', 'About'
         )
 
 app = web.application(urls, globals(), autoreload=True)
