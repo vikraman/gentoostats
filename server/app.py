@@ -5,7 +5,7 @@ import config
 from config import render
 from index import Index
 from arch import Arch
-from profile import Profile
+from profiles import Profile
 from mirror import Mirror
 from feature import Feature
 from kwd import Keyword
