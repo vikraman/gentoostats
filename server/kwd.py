@@ -11,4 +11,9 @@ class Keyword(object):
         if helpers.is_json_request():
             return helpers.serialize(keyword_data)
         else:
-            return render.keyword(keyword_data)
+            x_ticklabels = keyword_data.keys()
+            y_values = [ keyword_data[k]['PACKAGES'] for k in x_ticklabels ]
+            keyword_plot = helpers.barchart(title = 'Installed packages per keyword',
+                    x_label = 'Keyword', y_label = 'Number of Packages',
+                    x_ticklabels = x_ticklabels, y_values = y_values)
+            return render.keyword(keyword_data, keyword_plot)

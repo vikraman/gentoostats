@@ -1,4 +1,4 @@
-$def with (keyword_data)
+$def with (keyword_data, keyword_plot)
 $var title: Keyword
 
 <table border="1">
@@ -10,3 +10,5 @@ $var title: Keyword
     $for keyword in keyword_data.keys():
         <tr><td>$keyword</td><td>$keyword_data[keyword]['HOSTS']</td><td>$keyword_data[keyword]['PACKAGES']</td></tr>
 </table>
+
+<img src="data:image/png;base64,$keyword_plot" />

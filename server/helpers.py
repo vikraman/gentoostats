@@ -3,7 +3,15 @@ import web
 import json
 import uuid
 import re
+import StringIO
+import base64
 from portage.versions import catpkgsplit
+
+# matplotlib requires a writable home directory
+import os
+os.environ['HOME'] = '/tmp'
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 # check valid uuid
 
@@ -118,3 +126,20 @@ def serialize(object, human=True):
     else:
         indent = None
     return json.JSONEncoder(indent=indent).encode(object)
+
+def barchart(title, x_label, x_ticklabels, y_label, y_values):
+    fig = Figure()
+    canvas = FigureCanvas(fig)
+    ind = range(len(y_values))
+
+    ax = fig.add_subplot(1, 1, 1)
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    ax.set_xticks(ind)
+    ax.set_xticklabels(x_ticklabels)
+    ax.bar(ind, y_values, align='center')
+ 
+    ret = StringIO.StringIO()
+    canvas.print_figure(ret)
+    return base64.b64encode(ret.getvalue())

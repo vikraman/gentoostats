@@ -1,4 +1,4 @@
-$def with (arch_data)
+$def with (arch_data, arch_plot)
 $var title: Arch
 
 <table border="1">
@@ -9,3 +9,5 @@ $var title: Arch
     $for arch in arch_data.keys():
         <tr><td>$arch</td><td>$arch_data[arch]['HOSTS']</td></tr>
 </table>
+
+<img src="data:image/png;base64,$arch_plot"/>
