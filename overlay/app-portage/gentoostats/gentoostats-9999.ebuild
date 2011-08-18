@@ -25,12 +25,12 @@ RDEPEND="${DEPEND}
 	dev-python/simplejson"
 
 src_compile() {
-	cd "client"
+	pushd "client"
 	distutils_src_compile
 }
 
 src_install() {
-	cd "client"
+	pushd "client"
 	distutils_src_install
 
 	dodir /etc/gentoostats || die
@@ -42,6 +42,19 @@ src_install() {
 	fperms 0640 /etc/gentoostats/payload.cfg || die
 }
 
+generate_uuid() {
+	if [[ -e /proc/sys/kernel/random/uuid ]]; then
+		cat /proc/sys/kernel/random/uuid
+	else
+		AUTH1=$(< /dev/urandom tr -dc a-zA-Z0-9 | head -c8)
+		AUTH2=$(< /dev/urandom tr -dc a-zA-Z0-9 | head -c4)
+		AUTH3=$(< /dev/urandom tr -dc a-zA-Z0-9 | head -c4)
+		AUTH4=$(< /dev/urandom tr -dc a-zA-Z0-9 | head -c4)
+		AUTH5=$(< /dev/urandom tr -dc a-zA-Z0-9 | head -c12)
+		echo "${AUTH1}-${AUTH2}-${AUTH3}-${AUTH4}-${AUTH5}"
+	fi
+}
+
 pkg_postinst() {
 	distutils_pkg_postinst
 
@@ -51,7 +64,7 @@ pkg_postinst() {
 		touch "${AUTHFILE}"
 		echo "[AUTH]" >> "${AUTHFILE}"
 		echo -n "UUID : " >> "${AUTHFILE}"
-		cat /proc/sys/kernel/random/uuid >> "${AUTHFILE}"
+		generate_uuid >> "${AUTHFILE}"
 		echo -n "PASSWD : " >> "${AUTHFILE}"
 		< /dev/urandom tr -dc a-zA-Z0-9 | head -c16 >> "${AUTHFILE}"
 	fi
