@@ -1,0 +1,31 @@
+
+Installing the server using the www-apps/gentoostats ebuild, or copy the files
+in the server directory to a location.
+
+Plugin the following wsgi script in some subdirectory of /var/www/
+
+    import sys
+    sys.path.append('<path to webapp directory>')
+    from app import app
+    application = app.wsgifunc()
+
+Edit mod_wsgi.conf and add the following lines or similar, depending upon the
+appropriate path.
+
+    <IfDefine WSGI>
+        LoadModule wsgi_module modules/mod_wsgi.so
+        WSGIScriptAlias <prefix> <path to wsgi handler>
+        Alias /<prefix>/static /var/www/<prefix>/static/
+        AddType text/html .py
+        <Directory /var/www/<prefix>/>
+            Order deny,allow
+            Allow from all
+        </Directory>
+    </IfDefine>
+
+Copy db.cfg.example to db.cfg in the webapp directory, and modify the database
+configuration as necessary. The database should be initialized using the sql
+scripts in the sql/ subdirectory.
+
+To run tests, make sure the server is running, and execute the runtests.py
+script in the webapp directory.

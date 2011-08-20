@@ -1,0 +1,12 @@
+
+To install the client, use the ebuild found in the
+overlay/app-portage/gentoostats directory.
+
+An uuid and password will be automagically generated and saved in
+/etc/gentoostats/auth.cfg
+
+To restrict submission of specific stats, edit /etc/gentoostats/payload.cfg
+
+To submit your stats, run gentoostats-send as root.
+
+To access stats on the command line, use gentoostats-cli.
