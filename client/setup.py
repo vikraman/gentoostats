@@ -10,5 +10,5 @@ setup(
         license = "GPLv3",
         url = "http://soc.dev.gentoo/org/gentoostats",
         packages = ['gentoostats'],
-        scripts = ['gentoostats-send']
+        scripts = ['gentoostats-send', 'gentoostats-cli']
         )
