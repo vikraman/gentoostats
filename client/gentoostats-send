@@ -8,6 +8,9 @@ import urllib, httplib
 from gentoostats.payload import Payload
 
 def getAuthInfo(auth):
+    """
+    Read auth config
+    """
     config = ConfigParser.ConfigParser()
     if len(config.read(auth)) == 0:
         sys.stderr.write('Cannot read ' + auth)
@@ -23,6 +26,9 @@ def getAuthInfo(auth):
         sys.exit(1)
 
 def serialize(object, human=False):
+    """
+    Encode using json
+    """
     if human:
         indent = 2
         sort_keys = True
