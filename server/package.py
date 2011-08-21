@@ -24,6 +24,9 @@ class Package(object):
             return config.internalerror()
 
     def __GET(self, top):
+        """
+        Get category
+        """
         p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
                 COUNT(DISTINCT CAT) AS C_COUNT, \
                 COUNT(DISTINCT CAT, PKG) AS CP_COUNT, \
@@ -44,6 +47,9 @@ class Package(object):
             return render.package(p_data)
 
     def __GET_C(self, top, cat):
+        """
+        Get category/package
+        """
         p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
                 COUNT(DISTINCT CAT, PKG) AS CP_COUNT, \
                 COUNT(DISTINCT CAT, PKG, VER) AS CPV_COUNT\
@@ -63,6 +69,9 @@ class Package(object):
             return render.package_c(cat, p_data)
 
     def __GET_CP(self, top, cat, pkg):
+        """
+        Get category/package-version
+        """
         p_query = db.query('SELECT COUNT(DISTINCT UUID) AS HOST_COUNT, \
                 COUNT(DISTINCT CAT, PKG, VER) AS CPV_COUNT\
                 FROM INSTALLED_PACKAGES RIGHT OUTER JOIN PACKAGES\
@@ -94,6 +103,9 @@ class Package(object):
             return render.package_cpv(cat, pkg, ver, p_data)
 
     def __top(self, count, *args):
+        """
+        Find top entries
+        """
         t_list = list()
         if len(args) == 0:
             tc_query = db.query('SELECT CAT, COUNT(DISTINCT UUID) AS HOST_COUNT\

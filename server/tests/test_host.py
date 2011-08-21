@@ -7,14 +7,23 @@ from app import app
 class TestHost(unittest.TestCase):
 
     def setUp(self):
+        """
+        Initialize browser
+        """
         self.b = app.browser()
 
     def test_basic(self):
+        """
+        Test /host
+        """
         self.b.open('/host')
         self.assertEqual(self.b.path, '/host')
         self.assertEqual(self.b.status, 404)
 
     def test_get(self):
+        """
+        Test GET
+        """
         uri = '/host/' + str(uuid.uuid4())
         self.b.open(uri)
         self.assertEqual(self.b.path, uri)
@@ -25,6 +34,9 @@ class TestHost(unittest.TestCase):
         self.assertEqual(self.b.status, 404)
 
     def test_post_empty(self):
+        """
+        Test empty POST 
+        """
         str_uuid = str(uuid.uuid4())
         uri = '/host/' + str_uuid
         # post with empty string
@@ -47,6 +59,9 @@ class TestHost(unittest.TestCase):
         self.assertEqual(self.b.status, 500)
 
     def test_post_bad(self):
+        """
+        Test bad POST
+        """
         str_uuid = str(uuid.uuid4())
         uri = '/host/' + str_uuid
         # different uuid in payload
@@ -61,6 +76,9 @@ class TestHost(unittest.TestCase):
         self.assertTrue('Invalid uuid' in self.b.data)
 
     def test_post_get(self):
+        """
+        Test GET using POST
+        """
         str_uuid = str(uuid.uuid4())
         uri = '/host/' + str_uuid
         payload = {

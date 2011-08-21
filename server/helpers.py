@@ -13,22 +13,24 @@ os.environ['HOME'] = '/tmp'
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-# check valid uuid
-
 def is_uuid(uuid):
+    """
+    Check uuid validity
+    """
     regex = re.compile(r'^(\w{8})-(\w{4})-(\w{4})-(\w{4})-(\w{12})$')
     return regex.search(uuid)
 
-# convert uuid string to raw bytes
-
 def uuidbin(string):
-    #TODO: string is not a valid uuid
+    """
+    Convert uuid string to raw bytes
+    """
     u = uuid.UUID(string)
     return u.bytes
 
-# custom pkgsplit
-
 def pkgsplit(pkgname):
+    """
+    Custom pkgsplit
+    """
     cpv={'cat':'','pkg':'','ver':''}
     cpvr = catpkgsplit(pkgname)
     if cpvr is None:
@@ -43,10 +45,10 @@ def pkgsplit(pkgname):
             cpv['ver'] = cpv['ver'] + '-' + cpvr[3]
     return cpv
 
-# get functions for index keys
-# lookup key and insert if not found
-
 def get_kwkey(db, keyword):
+    """
+    Lookup keyword and return index key. Insert keyword if not found.
+    """
     if keyword is None:
         return None
     db_keyword = db.select('KEYWORDS', vars={'keyword':keyword}, where='KEYWORD=$keyword')
@@ -57,6 +59,9 @@ def get_kwkey(db, keyword):
     return kwkey
 
 def get_lkey(db, lang):
+    """
+    Lookup lang and return index key. Insert lang if not found.
+    """
     if lang is None:
         return None
     db_lang = db.select('LANG', vars={'lang':lang}, where='LANG=$lang')
@@ -67,6 +72,9 @@ def get_lkey(db, lang):
     return lkey
 
 def get_fkey(db, feature):
+    """
+    Lookup feature and return index key. Insert feature if not found.
+    """
     if feature is None:
         return None
     db_feature = db.select('FEATURES', vars={'feature':feature}, where='FEATURE=$feature')
@@ -77,6 +85,9 @@ def get_fkey(db, feature):
     return fkey
 
 def get_mkey(db, mirror):
+    """
+    Lookup mirror and return index key. Insert mirror if not found.
+    """
     if mirror is None:
         return None
     db_mirror = db.select('GENTOO_MIRRORS', vars={'mirror':mirror}, where='MIRROR=$mirror')
@@ -87,6 +98,9 @@ def get_mkey(db, mirror):
     return mkey
 
 def get_ukey(db, useflag):
+    """
+    Lookup useflag and return index key. Insert useflag if not found.
+    """
     if useflag is None:
         return None
     db_useflag = db.select('USEFLAGS', vars={'useflag':useflag}, where='USEFLAG=$useflag')
@@ -97,6 +111,9 @@ def get_ukey(db, useflag):
     return ukey
 
 def get_pkey(db, package):
+    """
+    Lookup package and return index key. Insert package if not found.
+    """
     if package is None:
         return None
     cpv = pkgsplit(package)
@@ -108,6 +125,9 @@ def get_pkey(db, package):
     return pkey
 
 def get_rkey(db, repo):
+    """
+    Lookup repo and return index key. Insert repo if not found.
+    """
     if repo is None:
         return None
     db_repo = db.select('REPOSITORIES', vars={'repo':repo}, where='REPO=$repo')
@@ -118,9 +138,15 @@ def get_rkey(db, repo):
     return rkey
 
 def is_json_request():
+    """
+    Check for json headers
+    """
     return web.ctx.environ['HTTP_ACCEPT'].find('json') != -1
 
 def serialize(object, human=True):
+    """
+    Encode object in json
+    """
     if human:
         indent = 2
     else:
@@ -128,6 +154,9 @@ def serialize(object, human=True):
     return json.JSONEncoder(indent=indent).encode(object)
 
 def barchart(title, x_label, x_ticklabels, y_label, y_values):
+    """
+    Generate a barchart and return base64 encoded image data
+    """
     fig = Figure()
     canvas = FigureCanvas(fig)
     ind = range(len(y_values))

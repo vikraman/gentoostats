@@ -11,6 +11,7 @@ class Arch(object):
         if helpers.is_json_request():
             return helpers.serialize(arch_data)
         else:
+            # generate plot
             x_ticklabels = arch_data.keys()
             y_values = [ arch_data[a]['HOSTS'] for a in x_ticklabels ]
             arch_plot = helpers.barchart(title = 'Hosts per arch', x_label = 'Arch',

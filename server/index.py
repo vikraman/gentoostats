@@ -2,6 +2,7 @@
 from web import form
 from config import render, db
 
+# package search form
 search_form = form.Form(
         form.Textbox('cat', value = 'any', description = 'Category'),
         form.Textbox('pkg', value = 'any', description = 'Package'),

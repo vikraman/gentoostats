@@ -6,6 +6,7 @@ import config
 from web import form
 from config import render, db
 
+# host search form
 host_form = form.Form(
         form.Textbox('uuid', description = 'UUID'),
         form.Button('submit', description = 'Submit')
@@ -36,32 +37,44 @@ class Host(object):
             host_data[var] = e[var]
 
         host_data['FEATURES'] = list()
-        features = db.query('SELECT FEATURE FROM HOST_FEATURES NATURAL JOIN FEATURES WHERE UUID=$uuid', vars={'uuid':uuid})
+        features = db.query('SELECT FEATURE\
+                FROM HOST_FEATURES NATURAL JOIN FEATURES\
+                WHERE UUID=$uuid', vars={'uuid':uuid})
         for f in features:
             host_data['FEATURES'].append(f['FEATURE'])
 
         host_data['ACCEPT_KEYWORDS'] = list()
-        keywords = db.query('SELECT KEYWORD FROM GLOBAL_KEYWORDS NATURAL JOIN KEYWORDS WHERE UUID=$uuid', vars={'uuid':uuid})
+        keywords = db.query('SELECT KEYWORD\
+                FROM GLOBAL_KEYWORDS NATURAL JOIN KEYWORDS\
+                WHERE UUID=$uuid', vars={'uuid':uuid})
         for k in keywords:
             host_data['ACCEPT_KEYWORDS'].append(k['KEYWORD'])
 
         host_data['USE'] = list()
-        useflags = db.query('SELECT USEFLAG FROM GLOBAL_USEFLAGS NATURAL JOIN USEFLAGS WHERE UUID=$uuid', vars={'uuid':uuid})
+        useflags = db.query('SELECT USEFLAG\
+                FROM GLOBAL_USEFLAGS NATURAL JOIN USEFLAGS\
+                WHERE UUID=$uuid', vars={'uuid':uuid})
         for u in useflags:
             host_data['USE'].append(u['USEFLAG'])
 
         host_data['LANG'] = list()
-        lang = db.query('SELECT LANG FROM HOST_LANG NATURAL JOIN LANG WHERE UUID=$uuid', vars={'uuid':uuid})
+        lang = db.query('SELECT LANG\
+                FROM HOST_LANG NATURAL JOIN LANG\
+                WHERE UUID=$uuid', vars={'uuid':uuid})
         for l in lang:
             host_data['LANG'].append(l['LANG'])
 
         host_data['GENTOO_MIRRORS'] = list()
-        mirrors = db.query('SELECT MIRROR FROM HOST_MIRRORS NATURAL JOIN GENTOO_MIRRORS WHERE UUID=$uuid', vars={'uuid':uuid})
+        mirrors = db.query('SELECT MIRROR\
+                FROM HOST_MIRRORS NATURAL JOIN GENTOO_MIRRORS\
+                WHERE UUID=$uuid', vars={'uuid':uuid})
         for m in mirrors:
             host_data['GENTOO_MIRRORS'].append(m['MIRROR'])
 
         host_data['PACKAGES'] = dict()
-        packages = db.query('SELECT CAT, PKG, VER FROM INSTALLED_PACKAGES NATURAL JOIN PACKAGES WHERE UUID=$uuid ORDER BY CAT, PKG, VER', vars={'uuid':uuid})
+        packages = db.query('SELECT CAT, PKG, VER\
+                FROM INSTALLED_PACKAGES NATURAL JOIN PACKAGES\
+                WHERE UUID=$uuid ORDER BY CAT, PKG, VER', vars={'uuid':uuid})
         for p in packages:
             cpv = p['CAT'] + '/' + p['PKG'] + '-' + p['VER']
             host_data['PACKAGES'][cpv] = dict()

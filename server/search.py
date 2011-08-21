@@ -49,6 +49,9 @@ class Search(object):
             return render.search(search_tuples)
 
     def _build_query(self, where, having):
+        """
+        Build SELECT clause
+        """
         sep = ' '
         query = ''
         query += 'SELECT' + sep + ','.join(what) + sep
@@ -66,6 +69,9 @@ class Search(object):
         return query.strip()
 
     def _build_where(self):
+        """
+        Build WHERE clause
+        """
         where = []
         cat = string.lower(self.args.cat)
         if cat != 'any':
@@ -85,6 +91,9 @@ class Search(object):
         return where
 
     def _build_having(self):
+        """
+        Build HAVING clause
+        """
         having = []
         if self.min_hosts != -1:
             having.append('HOSTS>=$min_hosts')

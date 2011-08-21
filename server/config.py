@@ -17,7 +17,13 @@ db = web.database(
 render = web.template.render(rootdir + 'templates/', base='layout')
 
 def notfound():
+    """
+    Rendered for HTTP 404 errors
+    """
     return web.notfound(render.error_404())
 
 def internalerror():
+    """
+    Rendered for HTTP 500 errors
+    """
     return web.internalerror(render.error_500())
