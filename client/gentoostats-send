@@ -4,7 +4,7 @@ import sys
 import json
 import argparse
 import ConfigParser
-import urllib, httplib
+import httplib
 from gentoostats.payload import Payload
 
 def getAuthInfo(auth):
@@ -63,13 +63,15 @@ def main():
     post_body = serialize(post_data, human=True)
     post_headers = {'Content-type':'application/json'}
 
-    conn = httplib.HTTPSConnection(args['server'] + ':' + str(args['port']))
-    conn.request('POST', url=post_url, headers=post_headers, body=post_body)
-
-    #TODO: Handle exceptions
-    response = conn.getresponse()
-    print response.status, response.reason
-    print 'Server response: ' + response.read()
+    try:
+        conn = httplib.HTTPSConnection(args['server'] + ':' + str(args['port']))
+        conn.request('POST', url=post_url, headers=post_headers, body=post_body)
+        response = conn.getresponse()
+        print response.status, response.reason
+        print 'Server response: ' + response.read()
+    except httplib.HTTPException:
+        sys.stderr.write('Something went wrong')
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

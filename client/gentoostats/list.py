@@ -1,20 +1,18 @@
 
+import pprint as pp
 from gentoostats import utils
 
 def pprint(title, object):
     """
     Pretty printer for the decoded json data
     """
-    # TODO: write a custom pretty printer here
-    import pprint
     print title
-    pprint.pprint(object)
+    pp.pprint(object)
 
 def add_parser(subparsers):
     """
     Setup argparse parsers
     """
-    # TODO: add help and descriptions for all opts
     list_parser = subparsers.add_parser('list')
     list_subparsers = list_parser.add_subparsers()
 
