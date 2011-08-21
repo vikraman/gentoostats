@@ -2,9 +2,13 @@
 import json
 import httplib
 
+# json headers for gentoostats-cli
 headers = {'Accept': 'application/json'}
 
 def GET(server, url, headers, https=True):
+    """
+    Get url from server using headers 
+    """
     if https:
         conn = httplib.HTTPSConnection(server)
     else:
@@ -17,6 +21,9 @@ def GET(server, url, headers, https=True):
     return data
 
 def deserialize(object):
+    """
+    Decode json object
+    """
     try:
         decoded = json.JSONDecoder().decode(object)
     except (ValueError, TypeError):

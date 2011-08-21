@@ -1,13 +1,19 @@
 
-import utils
+from gentoostats import utils
 
 def pprint(title, object):
+    """
+    Pretty printer for the decoded json data
+    """
     # TODO: write a custom pretty printer here
     import pprint
     print title
     pprint.pprint(object)
 
 def add_parser(subparsers):
+    """
+    Setup argparse parsers
+    """
     # TODO: add help and descriptions for all opts
     list_parser = subparsers.add_parser('list')
     list_subparsers = list_parser.add_subparsers()
@@ -37,26 +43,44 @@ def add_parser(subparsers):
     parser.add_argument('--use')
 
 def list_arch(args):
+    """
+    /arch
+    """
     data = list(args.server, args.url, '/arch', utils.headers)
     pprint('Arch', data)
 
 def list_feature(args):
+    """
+    /feature
+    """
     data = list(args.server, args.url, '/feature', utils.headers)
     pprint('Feature', data)
 
 def list_lang(args):
+    """
+    /lang
+    """
     data = list(args.server, args.url, '/lang', utils.headers)
     pprint('Lang', data)
 
 def list_mirror(args):
+    """
+    /mirror
+    """
     data = list(args.server, args.url, '/mirror', utils.headers)
     pprint('Mirror', data)
 
 def list_repo(args):
+    """
+    /repo
+    """
     data = list(args.server, args.url, '/repo', utils.headers)
     pprint('Repo', data)
 
 def list_package(args):
+    """
+    /package
+    """
     url_top = ''
     if args.top:
         url_top = '?top=' + str(args.top)
@@ -77,6 +101,9 @@ def list_package(args):
     pprint(title, data)
 
 def list_use(args):
+    """
+    /use
+    """
     url_use = '/use'
     title = 'Useflags'
     if args.use:
@@ -88,6 +115,9 @@ def list_use(args):
 
 
 def list(server, url_base, url_extra, headers):
+    """
+    Get and decode json from url
+    """
     get_data = utils.GET(server=server, url=url_base+url_extra, headers=headers)
     data = utils.deserialize(get_data)
     return data

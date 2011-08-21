@@ -7,8 +7,14 @@ from gentoostats.packages import Packages
 from gentoostats.metadata import Metadata
 
 class Payload(object):
+    """
+    A class that encapsulates payload operations
+    """
 
     def __init__(self, configfile):
+        """
+        Initialize the payload using the config file
+        """
         self.config = ConfigParser.ConfigParser()
         if len(self.config.read(configfile)) == 0:
             sys.stderr.write('Cannot read ' + configfile)
@@ -19,6 +25,9 @@ class Payload(object):
         self.update()
 
     def __masked(self, section, item):
+        """
+        Check the mask status of payload
+        """
         try:
             return not self.config.getboolean(section, item)
         except ConfigParser.NoOptionError:
@@ -28,6 +37,9 @@ class Payload(object):
             sys.exit(1)
 
     def update(self):
+        """
+        Read and update the payload
+        """
         env = Environment()
         self.payload['PLATFORM'] = 'Unknown' if self.__masked('ENV', 'PLATFORM') else env.getPlatform()
         self.payload['LASTSYNC'] = 'Unknown' if self.__masked('ENV', 'LASTSYNC') else env.getLastSync()
@@ -55,9 +67,15 @@ class Payload(object):
             self.payload['PACKAGES'][cpv] = p
 
     def get(self):
+        """
+        Return currently read payload
+        """
         return self.payload
 
     def dump(self, human=False):
+        """
+        Dump payload
+        """
         if human:
             pprint.pprint(self.payload)
         else:

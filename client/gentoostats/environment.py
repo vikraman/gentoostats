@@ -6,17 +6,32 @@ import portage
 from _emerge.actions import relative_profile_path
 
 class Environment(object):
+    """
+    A class encapsulating all environment and portage variable providers
+    """
 
     def __init__(self):
+        """
+        Initialize the class and portdir
+        """
         self.portdir = portage.settings['PORTDIR']
 
     def getVar(self, myvar):
+        """
+        Return the value of a portage variable
+        """
         return portage.settings[myvar]
 
     def getPlatform(self):
+        """
+        Return host platform
+        """
         return platform.platform(aliased=1)
 
     def getLastSync(self):
+        """
+        Return portage tree last sync time
+        """
         lastsync = None
         try:
             lastsync = portage.grabfile(os.path.join(self.portdir, 'metadata', 'timestamp.chk'))
@@ -27,6 +42,9 @@ class Environment(object):
         return lastsync[0]
 
     def getProfile(self):
+        """
+        Return selected portage profile
+        """
         profilever = None
         profile = portage.settings.profile_path
         if profile:
