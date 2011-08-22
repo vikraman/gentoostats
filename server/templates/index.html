@@ -7,6 +7,7 @@ Number of hosts: $count<br/>
 
 <h2>Statistics</h2>
 <ul>
+    <li>Host statistics: <a href="host">/host</a></li>
     <li>Arch statistics: <a href="arch">/arch</a></li>
     <li>Portage feature statistics: <a href="feature">/feature</a></li>
     <li>Keyword statistics: <a href="keyword">/keyword</a></li>
@@ -19,7 +20,7 @@ Number of hosts: $count<br/>
 </ul>
 
 <h2>Package search</h2>
-<form method="GET" action="/gentoostats/search">
+<form method="GET" action="search">
     $:form.render()
 </form>
 
