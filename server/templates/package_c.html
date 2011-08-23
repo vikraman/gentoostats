@@ -12,5 +12,7 @@ Top CPs:</br>
         <th>Hosts</th>
     </tr>
     $for p in pdata['TOP_CP']:
-        <tr><td>$p['CAT']</td><td>$p['PKG']</td><td>$p['HOST_COUNT']</td></tr>
+        <tr><td><a href="package/$p['CAT']">$p['CAT']</a></td>
+        <td><a href="$p['CAT']/$p['PKG']">$p['PKG']</a></td>
+        <td>$p['HOST_COUNT']</td></tr>
 </table>

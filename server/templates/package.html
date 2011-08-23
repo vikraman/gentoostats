@@ -12,5 +12,6 @@ Top Categories:</br>
         <th>Hosts</th>
     </tr>
     $for p in pdata['TOP_C']:
-        <tr><td>$p['CAT']</td><td>$p['HOST_COUNT']</td></tr>
+        <tr><td><a href="package/$p['CAT']">$p['CAT']</a></td>
+        <td>$p['HOST_COUNT']</td></tr>
 </table>
