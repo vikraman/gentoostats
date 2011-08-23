@@ -12,8 +12,8 @@ Top CPVs:</br>
         <th>Hosts</th>
     </tr>
     $for p in pdata['TOP_CPV']:
-        <tr><td><a href="package/$p['CAT']">$p['CAT']</a>
-        </td><td><a href="$p['CAT']/$p['PKG']">$p['PKG']<a>
+        <tr><td><a href="../$p['CAT']">$p['CAT']</a>
+        </td><td><a href="$p['PKG']">$p['PKG']<a>
         </td><td><a href="$p['PKG']-$p['VER']">$p['VER']</a>
         </td><td>$p['HOST_COUNT']</td></tr>
 </table>
