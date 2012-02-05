@@ -111,7 +111,7 @@ create table `HOST_MIRRORS` (
 
 create table `PACKAGES` (
   `PKEY` serial,
-  `CAT` varchar (32),
+  `CAT` varchar (64),
   `PKG` varchar (64),
   `VER` varchar (32),
   primary key (`CAT`, `PKG`, `VER`)
