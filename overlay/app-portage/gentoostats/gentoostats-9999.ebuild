@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit distutils python git
+inherit distutils python git-2
 
 DESCRIPTION="Package statistics client"
 HOMEPAGE="http://soc.dev.gentoo.org/gentoostats"
@@ -20,7 +20,7 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}
 	sys-apps/portage
-    >=app-portage/gentoolkit-0.3.0.2
+	>=app-portage/gentoolkit-0.3.0.2
 	dev-python/argparse
 	dev-python/simplejson"
 

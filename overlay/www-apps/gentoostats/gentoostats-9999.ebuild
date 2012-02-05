@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit webapp git
+inherit webapp git-2
 
 DESCRIPTION="Package statistics server"
 HOMEPAGE="https://soc.dev.gentoo.org/gentoostats/"
@@ -18,10 +18,9 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}
-    >=dev-python/webpy-0.3
-    dev-python/mysql-python
-    dev-python/matplotlib
-"
+	>=dev-python/webpy-0.3
+	dev-python/mysql-python
+	dev-python/matplotlib"
 
 pkg_setup() {
 	webapp_pkg_setup
