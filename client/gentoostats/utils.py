@@ -18,6 +18,9 @@ def GET(server, url, headers, https=True):
         data = conn.getresponse().read()
     except httplib.HTTPException:
         return None
+    finally:
+        if conn:
+            conn.close()
     return data
 
 def deserialize(object):
